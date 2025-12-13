@@ -1,3 +1,20 @@
 <resources>
     <string name="app_name">LazyGo</string>
+    <string name="splash_label_one">Takes a while</string>
+    <string name="splash_label_two">Why read this?</string>
+    <string name="splash_label_three">:3</string>
+    <string name="splash_label_four">&gt;_&lt;</string> <!-- equals to ">_<" -->
+    <string name="splash_label_five">Fun fact:                         </string>
+    <string name="label_next">Next</string>
+    <string name="label_get_started">Get started</string>
+    <string name="title_grant_location_permission">Location access</string>
+    <string name="description_grant_location_permission">Location access is needed to make sure the map is around the proper location</string>
+    <string name="label_grant_location_permission">Grant location permission</string>
+    <string name="title_select_location_provider">Mock location app</string>
+    <string name="description_select_location_provider">
+        Select the app as the mock location provider for the device.
+        This is needed for spoofing the location of your choice.
+        Do note that developer options need to be enabled.
+    </string>
+    <string name="label_select_location_provider">Select location provider</string>
 </resources>

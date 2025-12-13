@@ -36,9 +36,6 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
     buildFeatures {
         compose = true
     }
@@ -64,6 +61,9 @@ dependencies {
     implementation(libs.play.services.location)
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.retrofit)
+    implementation(libs.androidx.compose.material.icons.core)
+    implementation(libs.androidx.compose.material.icons.extended)
+    implementation(libs.accompanist.permissions)
 //    implementation(libs.converter.kotlinx.serialization)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
