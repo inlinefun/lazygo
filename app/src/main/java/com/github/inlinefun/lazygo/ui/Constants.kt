@@ -4,6 +4,7 @@ import androidx.compose.ui.unit.dp
 
 sealed interface Constants {
     object Padding {
+        val small = 12.dp
         val medium = 24.dp
     }
     object Spacing {

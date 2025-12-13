@@ -10,3 +10,4 @@ app/build/
 .DS_Store
 *.iml
 local.properties
+secrets.properties
