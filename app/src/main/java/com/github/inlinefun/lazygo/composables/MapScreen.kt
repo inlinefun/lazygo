@@ -1,32 +1,219 @@
 package com.github.inlinefun.lazygo.composables
 
-import androidx.compose.foundation.layout.Box
+import android.content.res.Configuration
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Explore
+import androidx.compose.material.icons.rounded.MyLocation
+import androidx.compose.material.icons.rounded.Route
+import androidx.compose.material3.BottomSheetScaffold
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.SheetValue
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
+import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.ui.Constants
 import com.github.inlinefun.lazygo.ui.PreviewTheme
+import com.google.maps.android.compose.CameraPositionState
+import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun MapScreen() {
-    Box(
+    val cameraState = rememberCameraPositionState {}
+    val sheetState = rememberStandardBottomSheetState(
+        initialValue = SheetValue.PartiallyExpanded
+    )
+    val scaffoldState = rememberBottomSheetScaffoldState(
+        bottomSheetState = sheetState
+    )
+    BottomSheetScaffold(
+        sheetContent = {
+            BottomSheetContent()
+        },
+        sheetDragHandle = {
+            BottomSheetDragHandle()
+        },
+        sheetPeekHeight = 160.dp,
+        scaffoldState = scaffoldState,
+        sheetSwipeEnabled = true,
         modifier = Modifier
             .fillMaxSize()
-            .padding(Constants.Padding.small)
-    ) {
-        GoogleMap(
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
+    ) { _ ->
+        MapContent(
+            state = cameraState
+        )
+        MapOverlay(
+            mapDirection = cameraState.position.bearing
+        )
+    }
+}
 
+@Composable
+private fun BottomSheetContent() {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = Constants.Padding.medium,
+                vertical = Constants.Padding.small
+            )
+    ) {
+        Button(
+            onClick = {},
+            colors = ButtonDefaults.outlinedButtonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHighest,
+            ),
+            contentPadding = ButtonDefaults.TextButtonContentPadding,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = Constants.Padding.small)
+        ) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(Constants.Spacing.medium),
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Route,
+                    contentDescription = null
+                )
+                Text(
+                    text = stringResource(R.string.label_unknown_address),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    softWrap = false
+                )
+            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(Constants.Spacing.medium),
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            OutlinedButton(
+                onClick = {},
+                modifier = Modifier
+                    .weight(1.0f)
+            ) {
+                Text(
+                    text = stringResource(R.string.label_add_point),
+                    style = MaterialTheme.typography.labelMedium,
+                )
+            }
+            Button(
+                onClick = {},
+                modifier = Modifier
+                    .weight(1.0f)
+            ) {
+                Text(
+                    text = stringResource(R.string.label_start),
+                    style = MaterialTheme.typography.labelMedium
+                )
+            }
         }
     }
 }
 
-@Preview
+@Composable
+private fun BottomSheetDragHandle() {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Surface(
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            shape = MaterialTheme.shapes.extraLarge,
+            modifier = Modifier
+                .padding(Constants.Padding.small)
+                .size(
+                    width = 40.dp,
+                    height = 4.dp
+                ),
+            content = {}
+        )
+    }
+}
+
+@Composable
+private fun MapContent(
+    state: CameraPositionState
+) {
+    GoogleMap(
+        cameraPositionState = state,
+        mapColorScheme = ComposeMapColorScheme.FOLLOW_SYSTEM,
+        uiSettings = MapUiSettings(
+            myLocationButtonEnabled = true,
+            compassEnabled = true,
+        ),
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+
+    }
+}
+
+@Composable
+private fun MapOverlay(
+    mapDirection: Float
+) {
+    Column(
+        horizontalAlignment = Alignment.End,
+        verticalArrangement = Arrangement.spacedBy(Constants.Spacing.medium),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(Constants.Padding.small)
+    ) {
+        MapOverlayButton(
+            onClick = {}
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.Explore,
+                contentDescription = null,
+                modifier = Modifier
+                    .rotate(mapDirection - 45.0f) // normalize the rotation
+            )
+        }
+        MapOverlayButton(
+            onClick = {}
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.MyLocation,
+                contentDescription = null
+            )
+        }
+    }
+}
+
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES or Configuration.UI_MODE_TYPE_NORMAL
+)
 @Composable
 fun PreviewMapScreen() {
     PreviewTheme {

@@ -17,4 +17,8 @@
         Do note that developer options need to be enabled.
     </string>
     <string name="label_select_location_provider">Select location provider</string>
+    <string name="label_start">Start</string>
+    <string name="label_stop">Stop</string>
+    <string name="label_add_point">Add point</string>
+    <string name="label_unknown_address">Unknown address</string>
 </resources>
