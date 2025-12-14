@@ -9,8 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Explore
 import androidx.compose.material.icons.rounded.MyLocation
+import androidx.compose.material.icons.rounded.NearMe
 import androidx.compose.material.icons.rounded.Route
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
@@ -169,8 +169,8 @@ private fun MapContent(
         cameraPositionState = state,
         mapColorScheme = ComposeMapColorScheme.FOLLOW_SYSTEM,
         uiSettings = MapUiSettings(
-            myLocationButtonEnabled = true,
-            compassEnabled = true,
+            myLocationButtonEnabled = false,
+            compassEnabled = false,
         ),
         modifier = Modifier
             .fillMaxSize()
@@ -194,10 +194,10 @@ private fun MapOverlay(
             onClick = {}
         ) {
             Icon(
-                imageVector = Icons.Rounded.Explore,
+                imageVector = Icons.Rounded.NearMe,
                 contentDescription = null,
                 modifier = Modifier
-                    .rotate(mapDirection - 45.0f) // normalize the rotation
+                    .rotate(-45.0f - mapDirection) // normalize the rotation
             )
         }
         MapOverlayButton(
