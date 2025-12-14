@@ -6,12 +6,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.MyLocation
 import androidx.compose.material.icons.rounded.NearMe
 import androidx.compose.material.icons.rounded.Route
+import androidx.compose.material.icons.rounded.ZoomIn
+import androidx.compose.material.icons.rounded.ZoomOut
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -25,6 +29,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -34,15 +39,19 @@ import androidx.compose.ui.unit.dp
 import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.ui.Constants
 import com.github.inlinefun.lazygo.ui.PreviewTheme
+import com.github.inlinefun.lazygo.util.copy
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.launch
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MapScreen() {
+    val scope = rememberCoroutineScope()
     val cameraState = rememberCameraPositionState {}
     val sheetState = rememberStandardBottomSheetState(
         initialValue = SheetValue.PartiallyExpanded
@@ -67,7 +76,28 @@ fun MapScreen() {
             state = cameraState
         )
         MapOverlay(
-            mapDirection = cameraState.position.bearing
+            mapDirection = cameraState.position.bearing,
+            resetDirection = {
+                scope.launch {
+                    val update = CameraUpdateFactory.newCameraPosition(
+                        cameraState.position.copy(
+                            bearing = 0.0f
+                        )
+                    )
+                    cameraState.animate(update, 200)
+                }
+            },
+            zoomIn = {
+                scope.launch {
+                    val update = CameraUpdateFactory.zoomIn()
+                    cameraState.animate(update, 200)
+                }
+            },
+            zoomOut = {
+                scope.launch {
+                    val update = CameraUpdateFactory.zoomOut()
+                    cameraState.animate(update, 200)
+                }}
         )
     }
 }
@@ -181,7 +211,10 @@ private fun MapContent(
 
 @Composable
 private fun MapOverlay(
-    mapDirection: Float
+    mapDirection: Float,
+    resetDirection: () -> Unit,
+    zoomIn: () -> Unit,
+    zoomOut: () -> Unit
 ) {
     Column(
         horizontalAlignment = Alignment.End,
@@ -191,7 +224,7 @@ private fun MapOverlay(
             .padding(Constants.Padding.small)
     ) {
         MapOverlayButton(
-            onClick = {}
+            onClick = resetDirection
         ) {
             Icon(
                 imageVector = Icons.Rounded.NearMe,
@@ -205,6 +238,22 @@ private fun MapOverlay(
         ) {
             Icon(
                 imageVector = Icons.Rounded.MyLocation,
+                contentDescription = null
+            )
+        }
+        MapOverlayButton(
+            onClick = zoomIn
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.ZoomIn,
+                contentDescription = null
+            )
+        }
+        MapOverlayButton(
+            onClick = zoomOut
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.ZoomOut,
                 contentDescription = null
             )
         }
