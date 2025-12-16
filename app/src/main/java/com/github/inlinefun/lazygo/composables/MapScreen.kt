@@ -49,9 +49,7 @@ import com.github.inlinefun.lazygo.util.copy
 import com.github.inlinefun.lazygo.util.to
 import com.github.inlinefun.lazygo.viewmodels.MapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.PinConfig
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
