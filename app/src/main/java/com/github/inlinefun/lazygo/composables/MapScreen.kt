@@ -80,12 +80,14 @@ fun MapScreen(
         bottomSheetState = sheetState
     )
     val focusedPosition by viewModel.focusedPosition.collectAsState()
+    val address by viewModel.address.collectAsState()
     val routeState by viewModel.routeStatus.collectAsState()
     val checkpoints = viewModel.checkpoints
     BottomSheetScaffold(
         sheetContent = {
             BottomSheetContent(
                 status = routeState,
+                address = address,
                 onStart = viewModel::activateRoute,
                 onStop = viewModel::stopRoute,
                 onPause = viewModel::pauseRoute
@@ -117,7 +119,12 @@ fun MapScreen(
                 )
             },
             markers = checkpoints,
-            onFocusedPositionChange = viewModel::updateFocusedLocation,
+            onFocusedPositionChange = {
+                viewModel.updateFocusedLocation(
+                    position = it,
+                    context = context
+                )
+            },
             modifier = Modifier
                 .padding(
                     // height - (handle height, padding on top + bottom)
@@ -175,6 +182,7 @@ fun MapScreen(
 @Composable
 private fun BottomSheetContent(
     status: RouteStatus,
+    address: String?,
     onStart: () -> Unit,
     onStop: () -> Unit,
     onPause: () -> Unit
@@ -208,7 +216,7 @@ private fun BottomSheetContent(
                     contentDescription = null
                 )
                 Text(
-                    text = stringResource(R.string.label_unknown_address),
+                    text = address ?: stringResource(R.string.label_unknown_address),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                     softWrap = false

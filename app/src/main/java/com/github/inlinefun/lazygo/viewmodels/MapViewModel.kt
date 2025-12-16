@@ -4,17 +4,22 @@ import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Geocoder
 import android.location.Location
 import androidx.compose.runtime.mutableStateListOf
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.inlinefun.lazygo.data.RouteStatus
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.CancellationTokenSource
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import java.util.Locale
 
 class MapViewModel(
     context: Application
@@ -23,10 +28,12 @@ class MapViewModel(
 ) {
 
     private val _focusedPosition = MutableStateFlow<LatLng?>(null)
+    private val _focusedAddress = MutableStateFlow<String?>(null)
     private val _routeStatus = MutableStateFlow(RouteStatus.INACTIVE)
     private val _checkpoints = mutableStateListOf<LatLng>()
 
     val focusedPosition = _focusedPosition.asStateFlow()
+    val address = _focusedAddress.asStateFlow()
     val routeStatus = _routeStatus.asStateFlow()
     val checkpoints: List<LatLng>
         get() = _checkpoints
@@ -54,9 +61,28 @@ class MapViewModel(
     }
 
     fun updateFocusedLocation(
-        position: LatLng
+        position: LatLng,
+        context: Context
     ) {
         _focusedPosition.value = position
+        updateAddress(context)
+    }
+
+    fun updateAddress(context: Context) {
+        focusedPosition.value?.let { location ->
+            viewModelScope.launch(Dispatchers.IO) {
+                try {
+                    val geocode = Geocoder(context, Locale.getDefault())
+                    val results = geocode.getFromLocation(location.latitude, location.longitude, 1)
+                    val address = results
+                        ?.firstOrNull()
+                        ?.getAddressLine(0)
+                    _focusedAddress.value = address
+                } catch (_: Exception) {
+                    _focusedAddress.value = null
+                }
+            }
+        }
     }
 
     fun pauseRoute() {
