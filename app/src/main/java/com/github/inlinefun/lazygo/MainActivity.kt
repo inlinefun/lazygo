@@ -25,6 +25,7 @@ import com.github.inlinefun.lazygo.composables.SetupScreen
 import com.github.inlinefun.lazygo.composables.SplashScreen
 import com.github.inlinefun.lazygo.ui.replace
 import com.github.inlinefun.lazygo.viewmodels.AppViewModel
+import com.github.inlinefun.lazygo.viewmodels.MapViewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,6 +58,7 @@ class MainActivity : ComponentActivity() {
 fun AppContent() {
     val navController = rememberNavController()
     val model = viewModel<AppViewModel>()
+    val mapModel = viewModel<MapViewModel>()
     NavHost(
         navController = navController,
         startDestination = Navigation.SplashScreen,
@@ -93,7 +95,9 @@ fun AppContent() {
             )
         }
         composable<Navigation.MapScreen> {
-            MapScreen()
+            MapScreen(
+                viewModel = mapModel
+            )
         }
     }
 }

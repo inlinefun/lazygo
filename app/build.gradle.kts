@@ -20,6 +20,10 @@ android {
         version = release(36)
     }
 
+    lint {
+        disable += "MockLocation"
+    }
+
     defaultConfig {
         applicationId = "com.github.inlinefun.lazygo"
         minSdk = 29
