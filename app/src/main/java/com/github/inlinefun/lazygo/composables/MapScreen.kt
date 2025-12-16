@@ -1,6 +1,7 @@
 package com.github.inlinefun.lazygo.composables
 
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.AddLocationAlt
 import androidx.compose.material.icons.rounded.PauseCircle
 import androidx.compose.material.icons.rounded.PlayCircle
 import androidx.compose.material.icons.rounded.Route
@@ -29,6 +29,7 @@ import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,18 +43,23 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.inlinefun.lazygo.R
+import com.github.inlinefun.lazygo.data.RouteStatus
 import com.github.inlinefun.lazygo.ui.Constants
 import com.github.inlinefun.lazygo.util.copy
 import com.github.inlinefun.lazygo.util.to
 import com.github.inlinefun.lazygo.viewmodels.MapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PinConfig
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
@@ -75,22 +81,16 @@ fun MapScreen(
     val scaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = sheetState
     )
-    var started by remember { mutableStateOf(false) }
-    var location by remember { mutableStateOf<LatLng?>(null) }
+    val focusedPosition by viewModel.focusedPosition.collectAsState()
+    val routeState by viewModel.routeStatus.collectAsState()
+    val checkpoints = viewModel.checkpoints
     BottomSheetScaffold(
         sheetContent = {
             BottomSheetContent(
-                started = started,
-                onStart = {
-                    started = true
-                },
-                onStop = {
-                    started = false
-                },
-                onPause = {
-                    started = false
-                },
-                onAddPoint = {}
+                status = routeState,
+                onStart = viewModel::activateRoute,
+                onStop = viewModel::stopRoute,
+                onPause = viewModel::pauseRoute
             )
         },
         sheetDragHandle = {
@@ -118,9 +118,8 @@ fun MapScreen(
                     onError = {}
                 )
             },
-            onFocusedPositionChange = {
-                location = it
-            },
+            markers = checkpoints,
+            onFocusedPositionChange = viewModel::updateFocusedLocation,
             modifier = Modifier
                 .padding(
                     // height - (handle height, padding on top + bottom)
@@ -163,18 +162,24 @@ fun MapScreen(
                     val update = CameraUpdateFactory.zoomOut()
                     cameraState.animate(update, 200)
                 }
-            }
+            },
+            onAddPoint = {
+                focusedPosition?.let {
+                    viewModel.addCheckpoint(it)
+                }
+            },
+            onRemovePoint = viewModel::removeLastCheckpoint,
+            pointsExist = checkpoints.isNotEmpty()
         )
     }
 }
 
 @Composable
 private fun BottomSheetContent(
-    started: Boolean,
+    status: RouteStatus,
     onStart: () -> Unit,
     onStop: () -> Unit,
-    onPause: () -> Unit,
-    onAddPoint: () -> Unit
+    onPause: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -217,39 +222,35 @@ private fun BottomSheetContent(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            OutlinedButton(
-                onClick = if (started) onStop else onAddPoint,
-                modifier = Modifier
-                    .weight(1.0f)
+            AnimatedVisibility(
+                visible = status != RouteStatus.INACTIVE
             ) {
-                AnimatedContent(
-                    targetState = if (started) Icons.Rounded.StopCircle else Icons.Rounded.AddLocationAlt
-                ) { target ->
+                OutlinedButton(
+                    onClick = onStop,
+                    modifier = Modifier
+                        .weight(1.0f)
+                ) {
                     Icon(
-                        imageVector = target,
+                        imageVector = Icons.Rounded.StopCircle,
                         contentDescription = null
                     )
-                }
-                Spacer(
-                    modifier = Modifier
-                        .size(Constants.Spacing.small)
-                )
-                AnimatedContent(
-                    targetState = if (started) R.string.label_stop else R.string.label_add_point
-                ) { resourceId ->
+                    Spacer(
+                        modifier = Modifier
+                            .size(Constants.Spacing.small)
+                    )
                     Text(
-                        text = stringResource(resourceId),
+                        text = stringResource(R.string.label_stop),
                         style = MaterialTheme.typography.labelMedium
                     )
                 }
             }
             Button(
-                onClick = if (started) onPause else onStart,
+                onClick = if (status == RouteStatus.ACTIVE) onPause else onStart,
                 modifier = Modifier
                     .weight(1.0f)
             ) {
                 AnimatedContent(
-                    targetState = if (started) Icons.Rounded.PauseCircle else Icons.Rounded.PlayCircle
+                    targetState = if (status == RouteStatus.ACTIVE) Icons.Rounded.PauseCircle else Icons.Rounded.PlayCircle
                 ) { target ->
                     Icon(
                         imageVector = target,
@@ -261,7 +262,11 @@ private fun BottomSheetContent(
                         .size(Constants.Spacing.small)
                 )
                 AnimatedContent(
-                    targetState = if (started) R.string.label_pause else R.string.label_start
+                    targetState = when(status) {
+                        RouteStatus.ACTIVE -> R.string.label_pause
+                        RouteStatus.INACTIVE -> R.string.label_start
+                        RouteStatus.PAUSED -> R.string.label_continue
+                    }
                 ) { resourceId ->
                     Text(
                         text = stringResource(resourceId),
@@ -277,6 +282,7 @@ private fun BottomSheetContent(
 private fun MapContent(
     state: CameraPositionState,
     onLoad: () -> Unit,
+    markers: List<LatLng>,
     onFocusedPositionChange: (LatLng) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -315,6 +321,12 @@ private fun MapContent(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                markers.forEach { location ->
+                    val state = rememberUpdatedMarkerState(position = location)
+                    Marker(
+                        state = state
+                    )
+                }
             }
         }
         MapCrosshair(

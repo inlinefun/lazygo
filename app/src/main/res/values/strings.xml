@@ -20,6 +20,7 @@
     <string name="label_start">Start</string>
     <string name="label_stop">Stop</string>
     <string name="label_pause">Pause</string>
+    <string name="label_continue">Continue</string>
     <string name="label_add_point">Add point</string>
     <string name="label_unknown_address">Unknown address</string>
 </resources>

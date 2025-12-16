@@ -1,5 +1,6 @@
 package com.github.inlinefun.lazygo.composables
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,8 +11,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.AddLocationAlt
 import androidx.compose.material.icons.rounded.MyLocation
 import androidx.compose.material.icons.rounded.NearMe
+import androidx.compose.material.icons.rounded.WrongLocation
 import androidx.compose.material.icons.rounded.ZoomIn
 import androidx.compose.material.icons.rounded.ZoomOut
 import androidx.compose.material3.Button
@@ -78,7 +81,10 @@ internal fun MapOverlay(
     onMapReorient: () -> Unit,
     onNearestLocation: () -> Unit,
     onZoomIn: () -> Unit,
-    onZoomOut: () -> Unit
+    onZoomOut: () -> Unit,
+    onAddPoint: () -> Unit,
+    onRemovePoint: () -> Unit,
+    pointsExist: Boolean
 ) {
     Column(
         horizontalAlignment = Alignment.End,
@@ -120,6 +126,26 @@ internal fun MapOverlay(
                 imageVector = Icons.Rounded.ZoomOut,
                 contentDescription = null
             )
+        }
+        MapOverlayButton(
+            onClick = onAddPoint
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.AddLocationAlt,
+                contentDescription = null
+            )
+        }
+        AnimatedVisibility(
+            visible = pointsExist
+        ) {
+            MapOverlayButton(
+                onClick = onRemovePoint
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.WrongLocation,
+                    contentDescription = null
+                )
+            }
         }
     }
 }

@@ -11,3 +11,9 @@ data class PermissionStep(
     val action: AppViewModel.() -> Unit,
     val buttonState: AppViewModel.() -> Boolean
 )
+
+enum class RouteStatus {
+    ACTIVE,
+    PAUSED,
+    INACTIVE;
+}
