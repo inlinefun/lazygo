@@ -49,7 +49,10 @@ import com.github.inlinefun.lazygo.util.copy
 import com.github.inlinefun.lazygo.util.to
 import com.github.inlinefun.lazygo.viewmodels.MapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.Dash
+import com.google.android.gms.maps.model.Gap
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.PatternItem
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
@@ -85,6 +88,7 @@ fun MapScreen(
     val routeState by viewModel.routeStatus.collectAsState()
     val checkpoints = viewModel.checkpoints
     val points by viewModel.points.collectAsState()
+    val fallbackRoute by viewModel.failed.collectAsState()
     BottomSheetScaffold(
         sheetContent = {
             BottomSheetContent(
@@ -128,6 +132,7 @@ fun MapScreen(
                 )
             },
             points = points,
+            fallbackRoute = fallbackRoute,
             modifier = Modifier
                 .padding(
                     // height - (handle height, padding on top + bottom)
@@ -294,6 +299,7 @@ private fun MapContent(
     markers: List<LatLng>,
     onFocusedPositionChange: (LatLng) -> Unit,
     points: List<LatLng>,
+    fallbackRoute: Boolean,
     modifier: Modifier = Modifier
 ) {
     var frameDelayed by remember { mutableStateOf(false) }
@@ -339,7 +345,13 @@ private fun MapContent(
                 }
                 Polyline(
                     points = points,
-                    color = MaterialTheme.colorScheme.primary
+                    pattern = listOf(
+                        Dash(Constants.Sizing.large.value),
+                        Gap(Constants.Spacing.medium.value)
+                    ).takeIf { fallbackRoute },
+                    color = MaterialTheme.colorScheme.error.takeIf {
+                        fallbackRoute
+                    } ?: MaterialTheme.colorScheme.primary
                 )
             }
         }

@@ -14,6 +14,8 @@ data class RouteRequest(
     val origin: RequestPoint,
     @SerialName("destination")
     val destination: RequestPoint,
+    @SerialName("intermediates")
+    val intermediates: List<RequestPoint>,
     @SerialName("travelMode")
     val travelMode: TravelMode,
     @SerialName("routingPreference")
@@ -22,12 +24,16 @@ data class RouteRequest(
     companion object {
         fun new(
             origin: RequestPoint,
-            destination: RequestPoint
+            destination: RequestPoint,
+            intermediates: List<RequestPoint>,
+            travelMode: TravelMode = TravelMode.DRIVE,
+            routingPreference: RoutingPreference = RoutingPreference.TRAFFIC_AWARE
         ) = RouteRequest(
             origin = origin,
             destination = destination,
-            travelMode = TravelMode.DRIVE,
-            routingPreference = RoutingPreference.TRAFFIC_AWARE
+            intermediates = intermediates,
+            travelMode = travelMode,
+            routingPreference = routingPreference
         )
     }
 }

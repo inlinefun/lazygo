@@ -79,11 +79,17 @@ class MapViewModel(
         }
         val origin = checkpoints.first().asRequest()
         val destination = checkpoints.last().asRequest()
+        val intermediates = checkpoints
+            .drop(1)
+            .dropLast(1)
+            .map { checkpoint ->
+                checkpoint.asRequest()
+            }
         // both are data classes, therefore this check is relevant
-        if (origin == destination) {
+        if (origin == destination && intermediates.isEmpty()) {
             return
         }
-        val request = RouteRequest.new(origin, destination)
+        val request = RouteRequest.new(origin, destination, intermediates)
         try {
             val response = API.routes.getRoute(request)
             val route = response.routes[0]
