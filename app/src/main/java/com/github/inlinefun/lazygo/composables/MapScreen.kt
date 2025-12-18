@@ -56,6 +56,7 @@ import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberUpdatedMarkerState
 import kotlinx.coroutines.delay
@@ -83,12 +84,13 @@ fun MapScreen(
     val address by viewModel.address.collectAsState()
     val routeState by viewModel.routeStatus.collectAsState()
     val checkpoints = viewModel.checkpoints
+    val points by viewModel.points.collectAsState()
     BottomSheetScaffold(
         sheetContent = {
             BottomSheetContent(
                 status = routeState,
                 address = address,
-                onStart = viewModel::activateRoute,
+                onStart = viewModel::startRoute,
                 onStop = viewModel::stopRoute,
                 onPause = viewModel::pauseRoute
             )
@@ -125,6 +127,7 @@ fun MapScreen(
                     context = context
                 )
             },
+            points = points,
             modifier = Modifier
                 .padding(
                     // height - (handle height, padding on top + bottom)
@@ -290,6 +293,7 @@ private fun MapContent(
     onLoad: () -> Unit,
     markers: List<LatLng>,
     onFocusedPositionChange: (LatLng) -> Unit,
+    points: List<LatLng>,
     modifier: Modifier = Modifier
 ) {
     var frameDelayed by remember { mutableStateOf(false) }
@@ -333,6 +337,10 @@ private fun MapContent(
                         state = state
                     )
                 }
+                Polyline(
+                    points = points,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
         }
         MapCrosshair(

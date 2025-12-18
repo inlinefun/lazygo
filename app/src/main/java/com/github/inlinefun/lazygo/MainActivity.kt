@@ -19,10 +19,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.github.inlinefun.lazygo.composables.MapScreen
-import com.github.inlinefun.lazygo.ui.AppTheme
-import com.github.inlinefun.lazygo.ui.Navigation
 import com.github.inlinefun.lazygo.composables.SetupScreen
 import com.github.inlinefun.lazygo.composables.SplashScreen
+import com.github.inlinefun.lazygo.ui.AppTheme
+import com.github.inlinefun.lazygo.ui.Navigation
 import com.github.inlinefun.lazygo.ui.replace
 import com.github.inlinefun.lazygo.viewmodels.AppViewModel
 import com.github.inlinefun.lazygo.viewmodels.MapViewModel

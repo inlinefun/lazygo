@@ -74,7 +74,9 @@ dependencies {
     implementation(libs.androidx.compose.material.icons.core)
     implementation(libs.androidx.compose.material.icons.extended)
     implementation(libs.accompanist.permissions)
-//    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.converter.kotlinx.serialization)
+    implementation(libs.android.maps.utils)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 

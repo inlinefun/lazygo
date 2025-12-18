@@ -1,6 +1,11 @@
 package com.github.inlinefun.lazygo.util
 
+import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
+import com.github.inlinefun.lazygo.data.RequestLatLng
+import com.github.inlinefun.lazygo.data.RequestLocation
+import com.github.inlinefun.lazygo.data.RequestPoint
 import com.github.inlinefun.lazygo.ui.Constants
 import com.google.android.gms.maps.CameraUpdate
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -46,4 +51,26 @@ suspend fun CameraPositionState.to(
     location: Location
 ) {
     this.animate(location.asCameraUpdate(this), Constants.Durations.MAP_MOVEMENTS)
+}
+
+fun Context.getApiKey(): String {
+    return this.packageManager
+        .getApplicationInfo(
+            this.packageName,
+            PackageManager.GET_META_DATA
+        )
+        .metaData
+        .getString("routes_api_key")
+        ?: error("Missing API Key from manifest")
+}
+
+fun LatLng.asRequest(): RequestPoint {
+    return RequestPoint(
+        location = RequestLocation(
+            position = RequestLatLng(
+                latitude = latitude,
+                longitude = longitude
+            )
+        )
+    )
 }

@@ -1,6 +1,7 @@
 package com.github.inlinefun.lazygo.ui
 
 import androidx.compose.ui.unit.dp
+import kotlinx.serialization.json.Json
 
 sealed interface Constants {
     object Padding {
@@ -22,5 +23,10 @@ sealed interface Constants {
         const val CITY_LEVEL = 15f
         const val IDEAL = 17.5f
         const val STREET_LEVEL = 20f
+    }
+    object Helpers {
+        val json = Json {
+            ignoreUnknownKeys = true
+        }
     }
 }
