@@ -2,6 +2,7 @@
 agp = "8.13.2"
 androidMapsUtils = "3.20.1"
 converterKotlinxSerialization = "3.0.0"
+datastorePreferences = "1.2.0"
 kotlin = "2.2.21"
 coreKtx = "1.17.0"
 espressoCore = "3.7.0"
@@ -22,6 +23,7 @@ android-maps-utils = { module = "com.google.maps.android:android-maps-utils", ve
 androidx-compose-material-icons-core = { module = "androidx.compose.material:material-icons-core", version.ref = "materialIconsExtended" }
 androidx-compose-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }

@@ -17,17 +17,17 @@ data class RouteRequest(
     @SerialName("intermediates")
     val intermediates: List<RequestPoint>,
     @SerialName("travelMode")
-    val travelMode: TravelMode,
+    val travelMode: TravelModes,
     @SerialName("routingPreference")
-    val routingPreference: RoutingPreference
+    val routingPreference: RoutingPreferences
 ) {
     companion object {
         fun new(
             origin: RequestPoint,
             destination: RequestPoint,
             intermediates: List<RequestPoint>,
-            travelMode: TravelMode = TravelMode.DRIVE,
-            routingPreference: RoutingPreference = RoutingPreference.TRAFFIC_AWARE
+            travelMode: TravelModes = TravelModes.DRIVE,
+            routingPreference: RoutingPreferences = RoutingPreferences.TRAFFIC_AWARE
         ) = RouteRequest(
             origin = origin,
             destination = destination,
@@ -59,7 +59,7 @@ data class RequestLatLng(
 )
 
 @Serializable
-enum class TravelMode(
+enum class TravelModes(
     val resourceId: Int,
     val icon: ImageVector
 ) {
@@ -76,7 +76,7 @@ enum class TravelMode(
 }
 
 @Serializable
-enum class RoutingPreference {
+enum class RoutingPreferences {
     @SerialName("TRAFFIC_AWARE")
     TRAFFIC_AWARE,
     @SerialName("TRAFFIC_UNAWARE")

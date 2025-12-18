@@ -25,4 +25,5 @@
     <string name="label_unknown_address">Unknown address</string>
     <string name="type_drive">Drive</string>
     <string name="type_walk">Walk</string>
+    <string name="label_settings">Settings</string>
 </resources>

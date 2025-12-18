@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.converter.kotlinx.serialization)
     implementation(libs.android.maps.utils)
+    implementation(libs.androidx.datastore.preferences)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 
