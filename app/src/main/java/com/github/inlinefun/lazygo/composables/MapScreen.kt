@@ -335,7 +335,7 @@ private fun BottomSheetContent(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            Button(
+            OutlinedButton(
                 onClick = toSettingsScreen,
                 modifier = Modifier
                     .weight(1.0f)
