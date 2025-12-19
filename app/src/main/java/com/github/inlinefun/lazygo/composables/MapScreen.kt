@@ -50,6 +50,7 @@ import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.data.RouteStatus
 import com.github.inlinefun.lazygo.data.TravelModes
 import com.github.inlinefun.lazygo.ui.Constants
+import com.github.inlinefun.lazygo.util.asLatLng
 import com.github.inlinefun.lazygo.util.copy
 import com.github.inlinefun.lazygo.util.to
 import com.github.inlinefun.lazygo.viewmodels.MapViewModel
@@ -132,6 +133,7 @@ fun MapScreen(
                     onSuccess = { location ->
                         scope.launch {
                             cameraState.to(location)
+                            viewModel.updateFocusedLocation(location.asLatLng(), context)
                         }
                     },
                     onError = {}
