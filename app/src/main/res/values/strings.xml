@@ -30,4 +30,8 @@
     <string name="setting_amoled_mode">Use Amoled mode</string>
     <string name="setting_travel_mode">Travel Mode</string>
     <string name="setting_traffic_awareness">Have traffic awareness</string>
+    <string name="setting_app_theme">App theme</string>
+    <string name="label_dark_mode">Dark mode</string>
+    <string name="label_light_mode">Light mode</string>
+    <string name="label_system_default">System default</string>
 </resources>

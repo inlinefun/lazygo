@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.data.BooleanPreferenceKey
 import com.github.inlinefun.lazygo.data.EnumPreferenceKey
+import com.github.inlinefun.lazygo.data.PreferenceEnum
 import com.github.inlinefun.lazygo.data.PreferencesStore
 import com.github.inlinefun.lazygo.data.UserPreferences
 import com.github.inlinefun.lazygo.ui.Constants
@@ -73,7 +74,7 @@ fun SettingsScreen(
                 when (val preferenceKey = UserPreferences.all[index]) {
                     is BooleanPreferenceKey -> BooleanPreferenceComponent(preferenceKey, preferencesStore)
                     is EnumPreferenceKey -> EnumPreferenceComponent(
-                        preferenceKey = @Suppress("UNCHECKED_CAST") (preferenceKey as EnumPreferenceKey<Enum<*>>),
+                        preferenceKey = @Suppress("unchecked_cast")(preferenceKey as EnumPreferenceKey<PreferenceEnum>),
                         preferencesStore = preferencesStore
                     )
                 }

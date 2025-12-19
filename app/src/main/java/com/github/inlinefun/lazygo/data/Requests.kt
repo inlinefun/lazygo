@@ -1,5 +1,6 @@
 package com.github.inlinefun.lazygo.data
 
+import androidx.annotation.StringRes
 import com.github.inlinefun.lazygo.R
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -56,8 +57,9 @@ data class RequestLatLng(
 
 @Serializable
 enum class TravelModes(
-    val resourceId: Int,
-) {
+    @get:StringRes
+    override val resourceId: Int,
+): PreferenceEnum {
     @SerialName("DRIVE")
     DRIVE(
         resourceId = R.string.type_drive

@@ -4,6 +4,7 @@ import com.github.inlinefun.lazygo.R
 
 internal object UserPreferences {
     val all = listOf(
+        AppTheme,
         AmoledTheme,
         TravelMode,
         TrafficAwareness
@@ -12,6 +13,14 @@ internal object UserPreferences {
         id = "amoled_theme",
         label = R.string.setting_amoled_mode,
         defaultValue = false
+    )
+    object AppTheme: EnumPreferenceKey<AppThemes>(
+        id = "app_theme",
+        label = R.string.setting_app_theme,
+        defaultValue = AppThemes.AUTO,
+        serializer = PreferenceSerializer.EnumSerializer(
+            values = AppThemes.entries.toTypedArray()
+        )
     )
     object TrafficAwareness: BooleanPreferenceKey(
         id = "traffic_awareness",

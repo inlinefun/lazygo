@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.github.inlinefun.lazygo.data.BooleanPreferenceKey
 import com.github.inlinefun.lazygo.data.EnumPreferenceKey
+import com.github.inlinefun.lazygo.data.PreferenceEnum
 import com.github.inlinefun.lazygo.data.PreferenceSerializer
 import com.github.inlinefun.lazygo.data.PreferencesStore
 import com.github.inlinefun.lazygo.ui.Constants
@@ -77,7 +78,7 @@ fun BooleanPreferenceComponent(
 
 @Composable
 fun EnumPreferenceComponent(
-    preferenceKey: EnumPreferenceKey<Enum<*>>,
+    preferenceKey: EnumPreferenceKey<PreferenceEnum>,
     preferencesStore: PreferencesStore
 ) {
     val scope = rememberCoroutineScope()
@@ -111,7 +112,7 @@ fun EnumPreferenceComponent(
             )
             Box {
                 AnimatedContent(
-                    targetState = value.displayName()
+                    targetState = stringResource(value.resourceId)
                 ) { target ->
                     Text(
                         text = target
@@ -125,7 +126,7 @@ fun EnumPreferenceComponent(
                         DropdownMenuItem(
                             text = {
                                 Text(
-                                    text = entry.displayName()
+                                    text = stringResource(entry.resourceId)
                                 )
                             },
                             onClick = {

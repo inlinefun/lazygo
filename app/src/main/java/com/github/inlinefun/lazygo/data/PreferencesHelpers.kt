@@ -1,5 +1,6 @@
 package com.github.inlinefun.lazygo.data
 
+import androidx.annotation.StringRes
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -7,8 +8,6 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -72,7 +71,7 @@ class PreferencesStore(
     }
 }
 
-sealed class EnumPreferenceKey<T>(
+sealed class EnumPreferenceKey<T: PreferenceEnum>(
     id: String,
     label: Int,
     defaultValue: T,
@@ -132,4 +131,8 @@ sealed class StringPreferenceKey(
     override fun datastoreKey() = stringPreferencesKey(
         name = id
     )
+}
+sealed interface PreferenceEnum {
+    @get:StringRes
+    val resourceId: Int
 }

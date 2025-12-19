@@ -8,6 +8,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,7 @@ import com.github.inlinefun.lazygo.composables.MapScreen
 import com.github.inlinefun.lazygo.composables.SettingsScreen
 import com.github.inlinefun.lazygo.composables.SetupScreen
 import com.github.inlinefun.lazygo.composables.SplashScreen
+import com.github.inlinefun.lazygo.data.AppThemes
 import com.github.inlinefun.lazygo.data.UserPreferences
 import com.github.inlinefun.lazygo.ui.AppTheme
 import com.github.inlinefun.lazygo.ui.Navigation
@@ -44,7 +46,17 @@ class MainActivity : ComponentActivity() {
                     .preferencesStore
                     .flow(UserPreferences.AmoledTheme)
             }.collectAsState(initial = UserPreferences.AmoledTheme.defaultValue)
+            val appTheme by remember {
+                (applicationContext as MainApplication)
+                    .preferencesStore
+                    .flow(UserPreferences.AppTheme)
+            }.collectAsState(initial = UserPreferences.AppTheme.defaultValue)
             AppTheme(
+                darkMode = when(appTheme) {
+                    AppThemes.AUTO -> isSystemInDarkTheme()
+                    AppThemes.DARK -> true
+                    AppThemes.LIGHT -> false
+                },
                 amoledTheme = amoledMode
             ) {
                 Scaffold(
