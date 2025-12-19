@@ -42,7 +42,6 @@ fun SplashScreen(
     val currentSplashResId = splashes.random()
     val context = LocalContext.current
     LaunchedEffect(Unit) {
-        delay(500)
         API.init(context)
         val hasPerms = viewModel.hasNecessaryPermissions()
         if (hasPerms) {
