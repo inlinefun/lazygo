@@ -33,7 +33,7 @@ import retrofit2.HttpException
 import java.util.Locale
 
 class MapViewModel(
-    context: Application
+    private val context: Application
 ): AndroidViewModel(
     application = context
 ) {
@@ -41,7 +41,7 @@ class MapViewModel(
     private val trafficAware = (context as MainApplication)
         .preferencesStore
         .asStateFlow(UserPreferences.TrafficAwareness, viewModelScope)
-    private val travelMode = (context as MainApplication)
+    val travelMode = (context as MainApplication)
         .preferencesStore
         .asStateFlow(UserPreferences.TravelMode, viewModelScope)
 
@@ -206,6 +206,11 @@ class MapViewModel(
                 activateRoute()
             }
         }
+    }
+    suspend fun updateTravelMode(mode: TravelModes) {
+        (this.context as MainApplication)
+            .preferencesStore
+            .set(UserPreferences.TravelMode, mode)
     }
 
 }

@@ -24,7 +24,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.SheetValue
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
@@ -45,6 +48,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.data.RouteStatus
+import com.github.inlinefun.lazygo.data.TravelModes
 import com.github.inlinefun.lazygo.ui.Constants
 import com.github.inlinefun.lazygo.util.copy
 import com.github.inlinefun.lazygo.util.to
@@ -90,6 +94,7 @@ fun MapScreen(
     val checkpoints = viewModel.checkpoints
     val points by viewModel.points.collectAsState()
     val fallbackRoute by viewModel.failed.collectAsState()
+    val travelMode by viewModel.travelMode.collectAsState()
     BottomSheetScaffold(
         sheetContent = {
             BottomSheetContent(
@@ -98,7 +103,13 @@ fun MapScreen(
                 onStart = viewModel::startRoute,
                 onStop = viewModel::stopRoute,
                 onPause = viewModel::pauseRoute,
-                toSettingsScreen = navigateToSettingsScreen
+                toSettingsScreen = navigateToSettingsScreen,
+                onChangeTravelMode = { mode ->
+                    scope.launch {
+                        viewModel.updateTravelMode(mode)
+                    }
+                },
+                travelMode = travelMode
             )
         },
         sheetDragHandle = {
@@ -196,7 +207,9 @@ private fun BottomSheetContent(
     onStart: () -> Unit,
     onStop: () -> Unit,
     onPause: () -> Unit,
-    toSettingsScreen: () -> Unit
+    toSettingsScreen: () -> Unit,
+    onChangeTravelMode: (TravelModes) -> Unit,
+    travelMode: TravelModes
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(Constants.Spacing.medium),
@@ -290,6 +303,29 @@ private fun BottomSheetContent(
                         style = MaterialTheme.typography.labelMedium
                     )
                 }
+            }
+        }
+        SingleChoiceSegmentedButtonRow(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            TravelModes.entries.forEach { mode ->
+                SegmentedButton(
+                    onClick = {
+                        onChangeTravelMode(mode)
+                    },
+                    selected = travelMode == mode,
+                    shape = SegmentedButtonDefaults.itemShape(
+                        index = mode.ordinal,
+                        count = TravelModes.entries.size
+                    ),
+                    label = {
+                        Text(
+                            text = stringResource(mode.resourceId),
+                            style = MaterialTheme.typography.labelMedium
+                        )
+                    }
+                )
             }
         }
         Row(

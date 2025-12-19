@@ -1,9 +1,5 @@
 package com.github.inlinefun.lazygo.data
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.DirectionsWalk
-import androidx.compose.material.icons.rounded.DriveEta
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.github.inlinefun.lazygo.R
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -61,17 +57,14 @@ data class RequestLatLng(
 @Serializable
 enum class TravelModes(
     val resourceId: Int,
-    val icon: ImageVector
 ) {
     @SerialName("DRIVE")
     DRIVE(
-        resourceId = R.string.type_drive,
-        icon = Icons.Rounded.DriveEta
+        resourceId = R.string.type_drive
     ),
     @SerialName("WALK")
     WALK(
-        resourceId = R.string.type_walk,
-        icon = Icons.AutoMirrored.Rounded.DirectionsWalk
+        resourceId = R.string.type_walk
     );
 }
 
