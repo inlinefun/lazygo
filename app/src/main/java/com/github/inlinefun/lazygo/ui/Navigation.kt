@@ -11,6 +11,8 @@ sealed interface Navigation {
     object SetupScreen: Navigation
     @Serializable
     object MapScreen: Navigation
+    @Serializable
+    object SettingsScreen: Navigation
 }
 
 fun <A: Navigation, B: Navigation> NavHostController.replace(route: A, target: B) {
@@ -22,7 +24,7 @@ fun <A: Navigation, B: Navigation> NavHostController.replace(route: A, target: B
     }
 }
 
-fun <A: Navigation> NavHostController.to(route: A) {
+fun <A: Navigation> NavHostController.go(route: A) {
     navigate<A>(route) {
         launchSingleTop = true
     }

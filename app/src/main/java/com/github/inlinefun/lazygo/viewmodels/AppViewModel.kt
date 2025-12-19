@@ -1,6 +1,7 @@
 package com.github.inlinefun.lazygo.viewmodels
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.ActivityNotFoundException
 import android.content.Context
@@ -12,6 +13,8 @@ import android.provider.Settings
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
+import com.github.inlinefun.lazygo.MainApplication
+import com.github.inlinefun.lazygo.data.PreferencesStore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
@@ -21,6 +24,7 @@ class AppViewModel(
 
     private val _isLocationProvider = MutableStateFlow(false)
     val isLocationProvider = _isLocationProvider.asStateFlow()
+    val preferences: PreferencesStore = (context as MainApplication).preferencesStore
 
     fun hasNecessaryPermissions(): Boolean {
         return canAccessFineLocation()
@@ -34,6 +38,7 @@ class AppViewModel(
         ) == PackageManager.PERMISSION_GRANTED
     }
 
+    @SuppressLint("InlinedApi")
     fun isLocationProvider(): Boolean {
         /*
          * There probably is a better way than a try catch in a try catch

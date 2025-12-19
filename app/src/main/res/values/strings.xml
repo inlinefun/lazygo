@@ -26,4 +26,7 @@
     <string name="type_drive">Drive</string>
     <string name="type_walk">Walk</string>
     <string name="label_settings">Settings</string>
+    <string name="setting_amoled_mode">Use Amoled mode</string>
+    <string name="setting_travel_mode">Travel Mode</string>
+    <string name="setting_traffic_awareness">Have traffic awareness</string>
 </resources>

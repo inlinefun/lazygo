@@ -2,36 +2,28 @@ package com.github.inlinefun.lazygo.data
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.floatPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 sealed class PreferenceKey<A, B>(
     val id: String,
+    val label: Int,
     val defaultValue: A,
     val serializer: PreferenceSerializer<A, B>
 ) {
     abstract fun datastoreKey(): Preferences.Key<B>
 }
 
-sealed class EnumPreferenceKey<T>(
-    id: String,
-    defaultValue: T,
-    serializer: PreferenceSerializer<T, String>
-): PreferenceKey<T, String>(
-    id, defaultValue, serializer
-) {
-    override fun datastoreKey() = stringPreferencesKey(
-        name = id
-    )
-}
-
 sealed interface PreferenceSerializer<A, B> {
     fun serialize(value: A): B
     fun deserialize(value: B): A
     class EnumSerializer<T: Enum<T>>(
-        private val values: Array<T>
+        val values: Array<T>
     ): PreferenceSerializer<T, String> {
         override fun serialize(value: T): String = value.name
         override fun deserialize(value: String): T = values
@@ -39,7 +31,10 @@ sealed interface PreferenceSerializer<A, B> {
                 it.name.equals(value, true)
             }
             ?: values[0]
-
+    }
+    class DefaultSerializer<T>: PreferenceSerializer<T, T> {
+        override fun serialize(value: T): T = value
+        override fun deserialize(value: T): T = value
     }
 }
 
@@ -61,4 +56,66 @@ class PreferencesStore(
                 data[key.datastoreKey()] = key.serializer.serialize(value)
             }
     }
+}
+
+sealed class EnumPreferenceKey<T>(
+    id: String,
+    label: Int,
+    defaultValue: T,
+    serializer: PreferenceSerializer<T, String>
+): PreferenceKey<T, String>(
+    id, label, defaultValue, serializer
+) {
+    override fun datastoreKey() = stringPreferencesKey(
+        name = id
+    )
+}
+
+sealed class BooleanPreferenceKey(
+    id: String,
+    label: Int,
+    defaultValue: Boolean
+): PreferenceKey<Boolean, Boolean>(
+    id, label, defaultValue,
+    serializer = PreferenceSerializer.DefaultSerializer()
+) {
+    override fun datastoreKey() = booleanPreferencesKey(
+        name = id
+    )
+}
+sealed class IntPreferenceKey(
+    id: String,
+    label: Int,
+    defaultValue: Int
+): PreferenceKey<Int, Int>(
+    id, label, defaultValue,
+    serializer = PreferenceSerializer.DefaultSerializer()
+) {
+    override fun datastoreKey() = intPreferencesKey(
+        name = id
+    )
+}
+sealed class FloatPreferenceKey(
+    id: String,
+    label: Int,
+    defaultValue: Float
+): PreferenceKey<Float, Float>(
+    id, label, defaultValue,
+    serializer = PreferenceSerializer.DefaultSerializer()
+) {
+    override fun datastoreKey() = floatPreferencesKey(
+        name = id
+    )
+}
+sealed class StringPreferenceKey(
+    id: String,
+    label: Int,
+    defaultValue: String
+): PreferenceKey<String, String>(
+    id, label, defaultValue,
+    serializer = PreferenceSerializer.DefaultSerializer()
+) {
+    override fun datastoreKey() = stringPreferencesKey(
+        name = id
+    )
 }

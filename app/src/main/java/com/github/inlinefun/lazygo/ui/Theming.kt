@@ -98,18 +98,18 @@ fun AppTheme(
     amoledTheme: Boolean = false,
     content: @Composable () -> Unit,
 ) {
+    val context = LocalContext.current
     MaterialTheme(
         colorScheme = when {
             Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                LocalContext.current.let { context ->
-                    val base = dynamicDarkColorScheme(context).takeIf { darkMode } ?: dynamicLightColorScheme(context)
-                    base.copy(
-                        surface = Color(0xFF000000)
-                    ).takeIf { amoledTheme } ?: base
-                }
+                if (darkMode) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
             }
             darkMode -> darkColorScheme
             else -> lightColorScheme
+        }.let { colorScheme ->
+            colorScheme.copy(
+                surface = Color.Black
+            ).takeIf { darkMode && amoledTheme } ?: colorScheme
         },
         content = content
     )

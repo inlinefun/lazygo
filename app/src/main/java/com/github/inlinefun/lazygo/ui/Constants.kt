@@ -13,6 +13,7 @@ sealed interface Constants {
         val medium = 12.dp
     }
     object Sizing {
+        val medium = 40.dp
         val large = 96.dp
     }
     object Durations {

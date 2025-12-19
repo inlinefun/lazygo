@@ -74,3 +74,7 @@ fun LatLng.asRequest(): RequestPoint {
         )
     )
 }
+
+fun Enum<*>.displayName(): String {
+    return name.lowercase().replaceFirstChar { it.uppercase() }
+}

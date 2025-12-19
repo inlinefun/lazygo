@@ -15,6 +15,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.PauseCircle
 import androidx.compose.material.icons.rounded.PlayCircle
 import androidx.compose.material.icons.rounded.Route
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.StopCircle
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
@@ -68,7 +69,8 @@ import kotlinx.coroutines.launch
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun MapScreen(
-    viewModel: MapViewModel
+    viewModel: MapViewModel,
+    navigateToSettingsScreen: () -> Unit
 ) {
     val sheetPeekHeight = 160.dp
     val sheetHandleHeight = 4.dp
@@ -95,7 +97,8 @@ fun MapScreen(
                 address = address,
                 onStart = viewModel::startRoute,
                 onStop = viewModel::stopRoute,
-                onPause = viewModel::pauseRoute
+                onPause = viewModel::pauseRoute,
+                toSettingsScreen = navigateToSettingsScreen
             )
         },
         sheetDragHandle = {
@@ -192,9 +195,11 @@ private fun BottomSheetContent(
     address: String?,
     onStart: () -> Unit,
     onStop: () -> Unit,
-    onPause: () -> Unit
+    onPause: () -> Unit,
+    toSettingsScreen: () -> Unit
 ) {
     Column(
+        verticalArrangement = Arrangement.spacedBy(Constants.Spacing.medium),
         modifier = Modifier
             .fillMaxWidth()
             .padding(
@@ -210,7 +215,6 @@ private fun BottomSheetContent(
             contentPadding = ButtonDefaults.TextButtonContentPadding,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(bottom = Constants.Padding.small)
         ) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(Constants.Spacing.medium),
@@ -286,6 +290,30 @@ private fun BottomSheetContent(
                         style = MaterialTheme.typography.labelMedium
                     )
                 }
+            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(Constants.Spacing.medium),
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Button(
+                onClick = toSettingsScreen,
+                modifier = Modifier
+                    .weight(1.0f)
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Settings,
+                    contentDescription = null
+                )
+                Spacer(
+                    modifier = Modifier
+                        .size(Constants.Spacing.small)
+                )
+                Text(
+                    text = stringResource(R.string.label_settings),
+                    style = MaterialTheme.typography.labelMedium
+                )
             }
         }
     }
