@@ -11,9 +11,13 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import com.github.inlinefun.lazygo.MainApplication
 import com.github.inlinefun.lazygo.data.API
 import com.github.inlinefun.lazygo.data.RouteRequest
 import com.github.inlinefun.lazygo.data.RouteStatus
+import com.github.inlinefun.lazygo.data.RoutingPreferences
+import com.github.inlinefun.lazygo.data.TravelModes
+import com.github.inlinefun.lazygo.data.UserPreferences
 import com.github.inlinefun.lazygo.util.asRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.Priority
@@ -33,6 +37,13 @@ class MapViewModel(
 ): AndroidViewModel(
     application = context
 ) {
+
+    private val trafficAware = (context as MainApplication)
+        .preferencesStore
+        .asStateFlow(UserPreferences.TrafficAwareness, viewModelScope)
+    private val travelMode = (context as MainApplication)
+        .preferencesStore
+        .asStateFlow(UserPreferences.TravelMode, viewModelScope)
 
     private val _focusedPosition = MutableStateFlow<LatLng?>(null)
     private val _focusedAddress = MutableStateFlow<String?>(null)
@@ -89,7 +100,13 @@ class MapViewModel(
         if (origin == destination && intermediates.isEmpty()) {
             return
         }
-        val request = RouteRequest.new(origin, destination, intermediates)
+        val travelMode = travelMode.value
+        val routingPreference = (RoutingPreferences.TRAFFIC_AWARE.takeIf {
+            trafficAware.value
+        } ?: RoutingPreferences.TRAFFIC_UNAWARE).takeIf {
+            travelMode == TravelModes.DRIVE
+        } ?: RoutingPreferences.UNSPECIFIED
+        val request = RouteRequest.new(origin, destination, intermediates, travelMode, routingPreference)
         try {
             val response = API.routes.getRoute(request)
             val route = response.routes[0]

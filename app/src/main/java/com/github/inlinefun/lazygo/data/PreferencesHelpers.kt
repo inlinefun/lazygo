@@ -7,8 +7,14 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 
 sealed class PreferenceKey<A, B>(
     val id: String,
@@ -55,6 +61,14 @@ class PreferencesStore(
             .edit { data ->
                 data[key.datastoreKey()] = key.serializer.serialize(value)
             }
+    }
+    fun <A, B> asStateFlow(key: PreferenceKey<A, B>, scope: CoroutineScope): StateFlow<A> {
+        return flow(key)
+            .stateIn(
+                scope = scope,
+                started = SharingStarted.Eagerly,
+                initialValue = key.defaultValue
+            )
     }
 }
 

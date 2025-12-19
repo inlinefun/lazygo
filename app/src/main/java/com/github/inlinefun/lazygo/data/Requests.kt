@@ -80,5 +80,7 @@ enum class RoutingPreferences {
     @SerialName("TRAFFIC_AWARE")
     TRAFFIC_AWARE,
     @SerialName("TRAFFIC_UNAWARE")
-    TRAFFIC_UNAWARE;
+    TRAFFIC_UNAWARE,
+    @SerialName("ROUTING_PREFERENCE_UNSPECIFIED")
+    UNSPECIFIED;
 }
