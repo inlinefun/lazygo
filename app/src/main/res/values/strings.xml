@@ -34,4 +34,6 @@
     <string name="label_dark_mode">Dark mode</string>
     <string name="label_light_mode">Light mode</string>
     <string name="label_system_default">System default</string>
+    <string name="setting_category_ui">UI Preferences</string>
+    <string name="setting_category_routing">Routing Preferences</string>
 </resources>

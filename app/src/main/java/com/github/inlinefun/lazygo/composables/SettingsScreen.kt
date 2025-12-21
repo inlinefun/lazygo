@@ -49,6 +49,7 @@ fun SettingsScreen(
                             .clickable(
                                 enabled = true,
                                 onClick = {
+                                    @Suppress("deprecation")
                                     (context as? Activity)?.onBackPressed()
                                 }
                             )
@@ -71,12 +72,22 @@ fun SettingsScreen(
             items(
                 count = UserPreferences.all.size
             ) { index ->
-                when (val preferenceKey = UserPreferences.all[index]) {
-                    is BooleanPreferenceKey -> BooleanPreferenceComponent(preferenceKey, preferencesStore)
-                    is EnumPreferenceKey -> EnumPreferenceComponent(
-                        preferenceKey = @Suppress("unchecked_cast")(preferenceKey as EnumPreferenceKey<PreferenceEnum>),
-                        preferencesStore = preferencesStore
-                    )
+                val category = UserPreferences.all[index]
+                Text(
+                    text = stringResource(category.label),
+                    style = MaterialTheme.typography.labelMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier
+                        .padding(Constants.Padding.small)
+                )
+                category.preferences.forEach { preferenceKey ->
+                    when(preferenceKey) {
+                        is BooleanPreferenceKey -> BooleanPreferenceComponent(preferenceKey, preferencesStore)
+                        is EnumPreferenceKey -> EnumPreferenceComponent(
+                            preferenceKey = @Suppress("unchecked_cast") (preferenceKey as EnumPreferenceKey<PreferenceEnum>),
+                            preferencesStore = preferencesStore
+                        )
+                    }
                 }
             }
         }

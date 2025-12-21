@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.stateIn
 
 sealed class PreferenceKey<A, B>(
     val id: String,
+    @get:StringRes
     val label: Int,
     val defaultValue: A,
     val serializer: PreferenceSerializer<A, B>
@@ -73,6 +74,7 @@ class PreferencesStore(
 
 sealed class EnumPreferenceKey<T: PreferenceEnum>(
     id: String,
+    @get:StringRes
     label: Int,
     defaultValue: T,
     serializer: PreferenceSerializer<T, String>
@@ -86,6 +88,7 @@ sealed class EnumPreferenceKey<T: PreferenceEnum>(
 
 sealed class BooleanPreferenceKey(
     id: String,
+    @get:StringRes
     label: Int,
     defaultValue: Boolean
 ): PreferenceKey<Boolean, Boolean>(
@@ -98,6 +101,7 @@ sealed class BooleanPreferenceKey(
 }
 sealed class IntPreferenceKey(
     id: String,
+    @get:StringRes
     label: Int,
     defaultValue: Int
 ): PreferenceKey<Int, Int>(
@@ -110,6 +114,7 @@ sealed class IntPreferenceKey(
 }
 sealed class FloatPreferenceKey(
     id: String,
+    @get:StringRes
     label: Int,
     defaultValue: Float
 ): PreferenceKey<Float, Float>(
@@ -122,6 +127,7 @@ sealed class FloatPreferenceKey(
 }
 sealed class StringPreferenceKey(
     id: String,
+    @get:StringRes
     label: Int,
     defaultValue: String
 ): PreferenceKey<String, String>(
@@ -136,3 +142,9 @@ sealed interface PreferenceEnum {
     @get:StringRes
     val resourceId: Int
 }
+
+internal data class PreferenceCategory(
+    @get:StringRes
+    val label: Int,
+    val preferences: List<PreferenceKey<*, *>>
+)

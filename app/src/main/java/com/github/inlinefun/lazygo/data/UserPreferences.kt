@@ -4,10 +4,20 @@ import com.github.inlinefun.lazygo.R
 
 internal object UserPreferences {
     val all = listOf(
-        AppTheme,
-        AmoledTheme,
-        TravelMode,
-        TrafficAwareness
+        PreferenceCategory(
+            label = R.string.setting_category_ui,
+            preferences = listOf(
+                AppTheme,
+                AmoledTheme
+            )
+        ),
+        PreferenceCategory(
+            label = R.string.setting_category_routing,
+            preferences = listOf(
+                TrafficAwareness,
+                TravelMode
+            )
+        )
     )
     object AmoledTheme: BooleanPreferenceKey(
         id = "amoled_theme",
