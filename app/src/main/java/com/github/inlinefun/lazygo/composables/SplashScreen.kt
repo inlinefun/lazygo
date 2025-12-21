@@ -24,7 +24,6 @@ import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.data.API
 import com.github.inlinefun.lazygo.ui.Constants
 import com.github.inlinefun.lazygo.viewmodels.AppViewModel
-import kotlinx.coroutines.delay
 
 @Composable
 fun SplashScreen(

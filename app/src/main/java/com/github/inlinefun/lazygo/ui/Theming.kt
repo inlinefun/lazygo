@@ -116,6 +116,7 @@ fun AppTheme(
 }
 
 @Composable
+@Suppress("unused")
 fun PreviewTheme(
     content: @Composable () -> Unit
 ) = AppTheme {

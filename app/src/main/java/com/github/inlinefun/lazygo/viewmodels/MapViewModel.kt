@@ -142,6 +142,7 @@ class MapViewModel(
             viewModelScope.launch(Dispatchers.IO) {
                 try {
                     val geocode = Geocoder(context, Locale.getDefault())
+                    @Suppress("deprecation")
                     val results = geocode.getFromLocation(location.latitude, location.longitude, 1)
                     val address = results
                         ?.firstOrNull()
