@@ -103,7 +103,11 @@ sealed class IntPreferenceKey(
     id: String,
     @get:StringRes
     label: Int,
-    defaultValue: Int
+    defaultValue: Int,
+    val minimum: Int,
+    val maximum: Int,
+    val prefix: String? = null,
+    val suffix: String? = null
 ): PreferenceKey<Int, Int>(
     id, label, defaultValue,
     serializer = PreferenceSerializer.DefaultSerializer()
@@ -116,7 +120,11 @@ sealed class FloatPreferenceKey(
     id: String,
     @get:StringRes
     label: Int,
-    defaultValue: Float
+    defaultValue: Float,
+    val minimum: Float,
+    val maximum: Float,
+    val prefix: String? = null,
+    val suffix: String? = null
 ): PreferenceKey<Float, Float>(
     id, label, defaultValue,
     serializer = PreferenceSerializer.DefaultSerializer()

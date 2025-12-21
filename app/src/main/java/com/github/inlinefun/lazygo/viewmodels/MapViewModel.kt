@@ -44,6 +44,9 @@ class MapViewModel(
     val travelMode = (context as MainApplication)
         .preferencesStore
         .asStateFlow(UserPreferences.TravelMode, viewModelScope)
+    val mapTheme = (context as MainApplication)
+        .preferencesStore
+        .asStateFlow(UserPreferences.MapTheme, viewModelScope)
 
     private val _focusedPosition = MutableStateFlow<LatLng?>(null)
     private val _focusedAddress = MutableStateFlow<String?>(null)

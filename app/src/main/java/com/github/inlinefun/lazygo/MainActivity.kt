@@ -26,7 +26,7 @@ import com.github.inlinefun.lazygo.composables.MapScreen
 import com.github.inlinefun.lazygo.composables.SettingsScreen
 import com.github.inlinefun.lazygo.composables.SetupScreen
 import com.github.inlinefun.lazygo.composables.SplashScreen
-import com.github.inlinefun.lazygo.data.AppThemes
+import com.github.inlinefun.lazygo.data.UITheme
 import com.github.inlinefun.lazygo.data.UserPreferences
 import com.github.inlinefun.lazygo.ui.AppTheme
 import com.github.inlinefun.lazygo.ui.Navigation
@@ -53,9 +53,9 @@ class MainActivity : ComponentActivity() {
             }.collectAsState(initial = UserPreferences.AppTheme.defaultValue)
             AppTheme(
                 darkMode = when(appTheme) {
-                    AppThemes.AUTO -> isSystemInDarkTheme()
-                    AppThemes.DARK -> true
-                    AppThemes.LIGHT -> false
+                    UITheme.AUTO -> isSystemInDarkTheme()
+                    UITheme.DARK -> true
+                    UITheme.LIGHT -> false
                 },
                 amoledTheme = amoledMode
             ) {

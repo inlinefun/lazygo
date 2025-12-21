@@ -8,7 +8,8 @@ internal object UserPreferences {
             label = R.string.setting_category_ui,
             preferences = listOf(
                 AppTheme,
-                AmoledTheme
+                AmoledTheme,
+                MapTheme
             )
         ),
         PreferenceCategory(
@@ -17,6 +18,12 @@ internal object UserPreferences {
                 TrafficAwareness,
                 TravelMode
             )
+        ),
+        PreferenceCategory(
+            label = R.string.setting_category_spoofing,
+            preferences = listOf(
+                TravelSpeed
+            )
         )
     )
     object AmoledTheme: BooleanPreferenceKey(
@@ -24,12 +31,20 @@ internal object UserPreferences {
         label = R.string.setting_amoled_mode,
         defaultValue = false
     )
-    object AppTheme: EnumPreferenceKey<AppThemes>(
+    object AppTheme: EnumPreferenceKey<UITheme>(
         id = "app_theme",
         label = R.string.setting_app_theme,
-        defaultValue = AppThemes.AUTO,
+        defaultValue = UITheme.AUTO,
         serializer = PreferenceSerializer.EnumSerializer(
-            values = AppThemes.entries.toTypedArray()
+            values = UITheme.entries.toTypedArray()
+        )
+    )
+    object MapTheme: EnumPreferenceKey<UITheme>(
+        id = "map_theme",
+        label = R.string.setting_map_theme,
+        defaultValue = UITheme.AUTO,
+        serializer = PreferenceSerializer.EnumSerializer(
+            values = UITheme.entries.toTypedArray()
         )
     )
     object TrafficAwareness: BooleanPreferenceKey(
@@ -44,5 +59,13 @@ internal object UserPreferences {
         serializer = PreferenceSerializer.EnumSerializer(
             values = TravelModes.entries.toTypedArray()
         )
+    )
+    object TravelSpeed: IntPreferenceKey(
+        id = "travel_speed",
+        label = R.string.setting_travel_speed,
+        defaultValue = 6,
+        minimum = 2,
+        maximum = 60,
+        suffix = "km/h"
     )
 }

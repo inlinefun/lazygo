@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.data.RouteStatus
 import com.github.inlinefun.lazygo.data.TravelModes
+import com.github.inlinefun.lazygo.data.UITheme
 import com.github.inlinefun.lazygo.ui.Constants
 import com.github.inlinefun.lazygo.util.asLatLng
 import com.github.inlinefun.lazygo.util.copy
@@ -58,6 +59,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.Dash
 import com.google.android.gms.maps.model.Gap
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapColorScheme
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
@@ -96,6 +98,7 @@ fun MapScreen(
     val points by viewModel.points.collectAsState()
     val fallbackRoute by viewModel.failed.collectAsState()
     val travelMode by viewModel.travelMode.collectAsState()
+    val mapTheme by viewModel.mapTheme.collectAsState()
     BottomSheetScaffold(
         sheetContent = {
             BottomSheetContent(
@@ -148,6 +151,7 @@ fun MapScreen(
             },
             points = points,
             fallbackRoute = fallbackRoute,
+            mapTheme = mapTheme,
             modifier = Modifier
                 .padding(
                     // height - (handle height, padding on top + bottom)
@@ -365,7 +369,8 @@ private fun MapContent(
     onFocusedPositionChange: (LatLng) -> Unit,
     points: List<LatLng>,
     fallbackRoute: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    mapTheme: UITheme
 ) {
     var frameDelayed by remember { mutableStateOf(false) }
     LaunchedEffect(Unit) {
@@ -388,7 +393,11 @@ private fun MapContent(
         if (frameDelayed) {
             GoogleMap(
                 cameraPositionState = state,
-                mapColorScheme = ComposeMapColorScheme.FOLLOW_SYSTEM,
+                mapColorScheme = when(mapTheme) {
+                    UITheme.AUTO -> ComposeMapColorScheme.FOLLOW_SYSTEM
+                    UITheme.DARK -> ComposeMapColorScheme.DARK
+                    UITheme.LIGHT -> ComposeMapColorScheme.LIGHT
+                },
                 properties = MapProperties(
                     isMyLocationEnabled = true
                 ),

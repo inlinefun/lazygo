@@ -36,4 +36,7 @@
     <string name="label_system_default">System default</string>
     <string name="setting_category_ui">UI Preferences</string>
     <string name="setting_category_routing">Routing Preferences</string>
+    <string name="setting_category_spoofing">Spoofing Preferences</string>
+    <string name="setting_travel_speed">Travel speed</string>
+    <string name="setting_map_theme">Map theme</string>
 </resources>

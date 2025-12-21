@@ -20,7 +20,7 @@ enum class RouteStatus {
     INACTIVE;
 }
 
-enum class AppThemes(
+enum class UITheme(
     @get:StringRes
     override val resourceId: Int
 ): PreferenceEnum {
