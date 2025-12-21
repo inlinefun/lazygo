@@ -1,6 +1,7 @@
 package com.github.inlinefun.lazygo.data
 
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -20,6 +21,7 @@ sealed class PreferenceKey<A, B>(
     @get:StringRes
     val label: Int,
     val defaultValue: A,
+    val visibility: @Composable (PreferencesStore) -> Boolean,
     val serializer: PreferenceSerializer<A, B>
 ) {
     abstract fun datastoreKey(): Preferences.Key<B>
@@ -77,9 +79,10 @@ sealed class EnumPreferenceKey<T: PreferenceEnum>(
     @get:StringRes
     label: Int,
     defaultValue: T,
+    visibility: @Composable (PreferencesStore) -> Boolean = { true },
     serializer: PreferenceSerializer<T, String>
 ): PreferenceKey<T, String>(
-    id, label, defaultValue, serializer
+    id, label, defaultValue, visibility, serializer
 ) {
     override fun datastoreKey() = stringPreferencesKey(
         name = id
@@ -90,9 +93,10 @@ sealed class BooleanPreferenceKey(
     id: String,
     @get:StringRes
     label: Int,
+    visibility: @Composable (PreferencesStore) -> Boolean = { true },
     defaultValue: Boolean
 ): PreferenceKey<Boolean, Boolean>(
-    id, label, defaultValue,
+    id, label, defaultValue, visibility,
     serializer = PreferenceSerializer.DefaultSerializer()
 ) {
     override fun datastoreKey() = booleanPreferencesKey(
@@ -104,12 +108,13 @@ sealed class IntPreferenceKey(
     @get:StringRes
     label: Int,
     defaultValue: Int,
+    visibility: @Composable (PreferencesStore) -> Boolean = { true },
     val minimum: Int,
     val maximum: Int,
     val prefix: String? = null,
     val suffix: String? = null
 ): PreferenceKey<Int, Int>(
-    id, label, defaultValue,
+    id, label, defaultValue, visibility,
     serializer = PreferenceSerializer.DefaultSerializer()
 ) {
     override fun datastoreKey() = intPreferencesKey(
@@ -121,28 +126,16 @@ sealed class FloatPreferenceKey(
     @get:StringRes
     label: Int,
     defaultValue: Float,
+    visibility: @Composable (PreferencesStore) -> Boolean = { true },
     val minimum: Float,
     val maximum: Float,
     val prefix: String? = null,
     val suffix: String? = null
 ): PreferenceKey<Float, Float>(
-    id, label, defaultValue,
+    id, label, defaultValue, visibility,
     serializer = PreferenceSerializer.DefaultSerializer()
 ) {
     override fun datastoreKey() = floatPreferencesKey(
-        name = id
-    )
-}
-sealed class StringPreferenceKey(
-    id: String,
-    @get:StringRes
-    label: Int,
-    defaultValue: String
-): PreferenceKey<String, String>(
-    id, label, defaultValue,
-    serializer = PreferenceSerializer.DefaultSerializer()
-) {
-    override fun datastoreKey() = stringPreferencesKey(
         name = id
     )
 }

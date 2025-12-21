@@ -50,11 +50,12 @@ fun BooleanPreferenceComponent(
             preferencesStore.set(preferenceKey, value)
         }
     }
+    val visibility = preferenceKey.visibility(preferencesStore)
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(
-                enabled = true,
+                enabled = visibility,
                 onClick = {
                     onClick(!value)
                 }
@@ -75,7 +76,8 @@ fun BooleanPreferenceComponent(
             )
             Switch(
                 checked = value,
-                onCheckedChange = onClick
+                onCheckedChange = onClick,
+                enabled = visibility
             )
         }
     }
@@ -122,6 +124,7 @@ fun IntPreferenceComponent(
                         .set(preferenceKey, value.fastRoundToInt())
                 }
             },
+            enabled = preferenceKey.visibility(preferencesStore),
             modifier = Modifier
                 .padding(horizontal = Constants.Padding.medium, vertical = Constants.Padding.small)
         )
@@ -169,6 +172,7 @@ fun FloatPreferenceKey(
                         .set(preferenceKey, value)
                 }
             },
+            enabled = preferenceKey.visibility(preferencesStore),
             modifier = Modifier
                 .padding(horizontal = Constants.Padding.medium, vertical = Constants.Padding.small)
         )

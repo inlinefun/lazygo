@@ -1,5 +1,8 @@
 package com.github.inlinefun.lazygo.data
 
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import com.github.inlinefun.lazygo.R
 
 internal object UserPreferences {
@@ -29,7 +32,15 @@ internal object UserPreferences {
     object AmoledTheme: BooleanPreferenceKey(
         id = "amoled_theme",
         label = R.string.setting_amoled_mode,
-        defaultValue = false
+        defaultValue = false,
+        visibility = { store ->
+            val theme by store
+                .flow(AppTheme)
+                .collectAsState(
+                    initial = AppTheme.defaultValue
+                )
+            theme == UITheme.DARK || (theme == UITheme.AUTO && isSystemInDarkTheme())
+        }
     )
     object AppTheme: EnumPreferenceKey<UITheme>(
         id = "app_theme",
