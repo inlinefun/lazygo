@@ -54,5 +54,7 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
+    implementation(libs.androidx.core.splashscreen)
+
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
