@@ -28,12 +28,12 @@ fun BottomNavbar(
 ) {
     val items = listOf(
         SubRouteNavItem(
-            label = R.string.label_nav_map,
+            label = R.string.label_map,
             icon = R.drawable.globe_location_pin,
             route = SubRoute.Map
         ),
         SubRouteNavItem(
-            label = R.string.label_nav_activity,
+            label = R.string.label_activity,
             icon = R.drawable.directions_run,
             route = SubRoute.Activity
         )

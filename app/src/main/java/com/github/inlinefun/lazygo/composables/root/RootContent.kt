@@ -2,6 +2,8 @@ package com.github.inlinefun.lazygo.composables.root
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,13 +20,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.github.inlinefun.lazygo.common.NavRoute
 import com.github.inlinefun.lazygo.common.PreviewWrapper
 import com.github.inlinefun.lazygo.common.SubRoute
 import com.github.inlinefun.lazygo.composables.root.map.MapWrapper
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun RootContent() {
+fun RootContent(
+    navigateTo: (NavRoute) -> Unit
+) {
     val contentBackStack = rememberNavBackStack(SubRoute.Map)
     val currentRoute by remember {
         derivedStateOf {
@@ -33,7 +38,7 @@ fun RootContent() {
     }
     Scaffold(
         topBar = {
-            TopBar()
+            TopBar(navigateTo)
         },
         bottomBar = {
             BottomNavbar(
@@ -51,14 +56,30 @@ fun RootContent() {
             )
         }
     ) { paddingValues ->
-        val simpleFadeTransition = {
-            fadeIn() togetherWith fadeOut()
-        }
+        val offset = 100
         NavDisplay(
             backStack = contentBackStack,
-            transitionSpec = { simpleFadeTransition() },
-            popTransitionSpec = { simpleFadeTransition() },
-            predictivePopTransitionSpec = { simpleFadeTransition() },
+            transitionSpec = {
+                val entry = fadeIn() + slideInHorizontally { offset }
+                val exit = fadeOut() + slideOutHorizontally { -offset }
+                entry togetherWith exit
+            },
+            popTransitionSpec = {
+                val entry = fadeIn() + slideInHorizontally { -offset }
+                val exit = fadeOut() + slideOutHorizontally { offset }
+                (entry togetherWith exit)
+                    .apply {
+                        targetContentZIndex = -1f
+                    }
+            },
+            predictivePopTransitionSpec = {
+                val entry = fadeIn() + slideInHorizontally { -offset }
+                val exit = fadeOut() + slideOutHorizontally { offset }
+                (entry togetherWith exit)
+                    .apply {
+                        targetContentZIndex = -1f
+                    }
+            },
             entryProvider = entryProvider {
                 entry<SubRoute.Map> {
                     MapWrapper(
@@ -86,6 +107,8 @@ fun RootContent() {
 @Composable
 private fun PreviewRootContent() {
     PreviewWrapper {
-        RootContent()
+        RootContent(
+            navigateTo = {}
+        )
     }
 }
