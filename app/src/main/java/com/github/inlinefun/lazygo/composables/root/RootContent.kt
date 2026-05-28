@@ -23,6 +23,7 @@ import androidx.navigation3.ui.NavDisplay
 import com.github.inlinefun.lazygo.common.NavRoute
 import com.github.inlinefun.lazygo.common.PreviewWrapper
 import com.github.inlinefun.lazygo.common.SubRoute
+import com.github.inlinefun.lazygo.composables.root.activity.ActivityWrapper
 import com.github.inlinefun.lazygo.composables.root.map.MapWrapper
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
@@ -89,7 +90,11 @@ fun RootContent(
                     )
                 }
                 entry<SubRoute.Activity> {
-
+                    ActivityWrapper(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(paddingValues)
+                    )
                 }
             }
         )
