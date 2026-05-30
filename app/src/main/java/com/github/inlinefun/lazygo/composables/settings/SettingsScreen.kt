@@ -7,14 +7,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.common.PreviewWrapper
+import com.github.inlinefun.lazygo.components.DefaultTopbar
 
 @Composable
 fun SettingsScreen(
     toPreviousScreen: () -> Unit
 ) {
     Scaffold(
-        topBar = { SettingsTopbar(toPreviousScreen) },
+        topBar = {
+            DefaultTopbar(
+                title = R.string.label_settings,
+                onAction = toPreviousScreen
+            )
+        },
         modifier = Modifier
             .fillMaxSize()
     ) { paddingValues ->
