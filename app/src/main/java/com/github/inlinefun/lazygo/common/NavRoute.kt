@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 sealed interface NavRoute : NavKey {
     @Serializable
     data object Root : NavRoute
+
     @Serializable
     data object Settings : NavRoute
 }
@@ -13,6 +14,7 @@ sealed interface NavRoute : NavKey {
 sealed interface SubRoute : NavKey {
     @Serializable
     data object Map : SubRoute
+
     @Serializable
     data object Activity : SubRoute
 }
