@@ -2,12 +2,9 @@ package com.github.inlinefun.lazygo.common
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialExpressiveTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
@@ -108,6 +105,7 @@ fun LazyGoTheme(
                 dynamicLightColorScheme(context)
             }
         }
+
         darkTheme -> defaultDarkColorScheme
         else -> defaultLightColorScheme
     }.let { colorScheme ->

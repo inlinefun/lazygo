@@ -7,14 +7,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
-import com.google.android.gms.maps.GoogleMapOptions
-import com.google.android.gms.maps.UiSettings
-import com.google.android.gms.maps.model.MapColorScheme
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.ktx.buildGoogleMapOptions
 
 @Composable
 fun GoogleMap(
