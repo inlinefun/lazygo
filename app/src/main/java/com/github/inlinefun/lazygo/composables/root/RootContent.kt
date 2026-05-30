@@ -1,10 +1,5 @@
 package com.github.inlinefun.lazygo.composables.root
 
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -19,10 +14,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
-import androidx.navigation3.ui.NavDisplay
 import com.github.inlinefun.lazygo.common.NavRoute
 import com.github.inlinefun.lazygo.common.PreviewWrapper
 import com.github.inlinefun.lazygo.common.SubRoute
+import com.github.inlinefun.lazygo.components.NavHost
 import com.github.inlinefun.lazygo.composables.root.activity.ActivityWrapper
 import com.github.inlinefun.lazygo.composables.root.map.MapWrapper
 
@@ -45,10 +40,11 @@ fun RootContent(
             BottomNavbar(
                 currentRoute = currentRoute,
                 navigateTo = { route ->
-                    when(route) {
+                    when (route) {
                         is SubRoute.Map -> {
                             contentBackStack.removeIf { it != route }
                         }
+
                         is SubRoute.Activity -> {
                             contentBackStack.add(route)
                         }
@@ -57,30 +53,8 @@ fun RootContent(
             )
         }
     ) { paddingValues ->
-        val offset = 100
-        NavDisplay(
+        NavHost(
             backStack = contentBackStack,
-            transitionSpec = {
-                val entry = fadeIn() + slideInHorizontally { offset }
-                val exit = fadeOut() + slideOutHorizontally { -offset }
-                entry togetherWith exit
-            },
-            popTransitionSpec = {
-                val entry = fadeIn() + slideInHorizontally { -offset }
-                val exit = fadeOut() + slideOutHorizontally { offset }
-                (entry togetherWith exit)
-                    .apply {
-                        targetContentZIndex = -1f
-                    }
-            },
-            predictivePopTransitionSpec = {
-                val entry = fadeIn() + slideInHorizontally { -offset }
-                val exit = fadeOut() + slideOutHorizontally { offset }
-                (entry togetherWith exit)
-                    .apply {
-                        targetContentZIndex = -1f
-                    }
-            },
             entryProvider = entryProvider {
                 entry<SubRoute.Map> {
                     MapWrapper(
