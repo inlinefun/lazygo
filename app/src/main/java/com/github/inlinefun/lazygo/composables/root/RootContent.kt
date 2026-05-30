@@ -34,7 +34,7 @@ fun RootContent(
     }
     Scaffold(
         topBar = {
-            TopBar(navigateTo)
+            MainTopbar(navigateTo)
         },
         bottomBar = {
             BottomNavbar(

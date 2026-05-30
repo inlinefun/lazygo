@@ -7,7 +7,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,13 +16,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.common.NavRoute
 import kotlinx.coroutines.delay
 
 @Composable
-fun TopBar(
+fun MainTopbar(
     navigateTo: (NavRoute) -> Unit
 ) {
     Box(
@@ -37,7 +37,9 @@ fun TopBar(
         CenterAlignedTopAppBar(
             title = {
                 Text(
-                    text = stringResource(R.string.app_name)
+                    text = stringResource(R.string.app_name),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Medium
                 )
             },
             actions = {
