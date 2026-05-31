@@ -112,7 +112,8 @@ fun LazyGoTheme(
         if (amoledTheme && darkTheme) {
             colorScheme
                 .copy(
-                    background = Color(0xFF000000)
+                    background = Color(0xFF000000),
+                    surface = Color(0xFF000000)
                 )
         } else {
             colorScheme
