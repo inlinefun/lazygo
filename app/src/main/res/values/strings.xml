@@ -8,6 +8,7 @@
     <string name="preference_label_app_theme">App theme</string>
     <string name="preference_label_amoled_theme">Amoled theme</string>
     <string name="preference_description_amoled_theme">Use pitch black backgrounds where applicable</string>
+    <string name="preference_label_map_theme">Map theme</string>
 
     <string name="value_system_default">System default</string>
     <string name="value_dark">Dark</string>
