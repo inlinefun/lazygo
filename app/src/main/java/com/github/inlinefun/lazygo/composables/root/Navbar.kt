@@ -3,6 +3,7 @@ package com.github.inlinefun.lazygo.composables.root
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -38,7 +39,9 @@ fun BottomNavbar(
             route = SubRoute.Activity
         )
     )
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.surface
+    ) {
         items.forEach { item ->
             NavigationBarItem(
                 selected = item.route == currentRoute,
