@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.floatPreferencesKey
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import kotlin.enums.EnumEntries
 
 sealed interface Preference
 sealed interface PreferenceEnum {
@@ -99,14 +100,15 @@ sealed class PreferenceKey<A, B>(
         @field:StringRes
         icon: Int? = null,
         defaultValue: T,
-        enumClass: Class<T>
+        val enumClass: Class<T>,
+        val enumEntries: EnumEntries<T>
     ) : PreferenceKey<T, String>(
         id, label, description, icon, defaultValue,
         serialize = { it.value },
-        deserialize = { name ->
-            runCatching {
-                java.lang.Enum.valueOf(enumClass, name)
-            }.getOrDefault(defaultValue)
+        deserialize = { value ->
+            enumEntries.find { entry ->
+                entry.value == value
+            } ?: defaultValue
         }
     ) where T : Enum<T>, T : PreferenceEnum {
         override fun getDataStoreKey(): Preferences.Key<String> = stringPreferencesKey(name = id)

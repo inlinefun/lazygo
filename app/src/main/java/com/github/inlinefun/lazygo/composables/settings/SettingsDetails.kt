@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.github.inlinefun.lazygo.common.Constants
 import com.github.inlinefun.lazygo.common.PreviewWrapper
 import com.github.inlinefun.lazygo.components.DefaultTopbar
+import com.github.inlinefun.lazygo.composables.settings.components.ChoicePreferenceComponent
 import com.github.inlinefun.lazygo.composables.settings.components.SettingComponentWrapper
 import com.github.inlinefun.lazygo.composables.settings.components.SwitchPreferenceComponent
 import com.github.inlinefun.lazygo.preferences.PreferenceKey
@@ -45,6 +46,7 @@ fun SettingsDetails(
                 .fillMaxSize()
                 .padding(paddingValues)
                 .padding(horizontal = Constants.Spacing.medium)
+                .padding(top = Constants.Spacing.medium)
                 .verticalScroll(scrollState)
         ) {
             preferences.categories.forEach { preferenceCategory ->
@@ -61,6 +63,13 @@ fun SettingsDetails(
                     val count = preferenceCategory.preferences.size
                     preferenceCategory.preferences.forEachIndexed { index, preferenceKey ->
                         when (preferenceKey) {
+                            is PreferenceKey.Choice -> {
+                                ChoicePreferenceComponent(
+                                    key = preferenceKey,
+                                    index = index,
+                                    count = count
+                                )
+                            }
                             is PreferenceKey.Switch -> {
                                 SwitchPreferenceComponent(
                                     key = preferenceKey,
