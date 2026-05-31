@@ -6,6 +6,7 @@ import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavBackStack
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
@@ -14,7 +15,8 @@ import androidx.navigation3.ui.NavDisplay
 @Composable
 fun <T : NavKey> NavHost(
     backStack: NavBackStack<T>,
-    entryProvider: (T) -> NavEntry<T>
+    entryProvider: (T) -> NavEntry<T>,
+    modifier: Modifier = Modifier
 ) {
     val offset = 100
     NavDisplay(
@@ -40,6 +42,7 @@ fun <T : NavKey> NavHost(
                     targetContentZIndex = -1f
                 }
         },
-        entryProvider = entryProvider
+        entryProvider = entryProvider,
+        modifier = modifier
     )
 }

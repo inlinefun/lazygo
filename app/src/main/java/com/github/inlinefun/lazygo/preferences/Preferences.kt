@@ -1,8 +1,15 @@
 package com.github.inlinefun.lazygo.preferences
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.github.inlinefun.lazygo.R
 
 sealed interface Preferences {
+    @get:StringRes
+    val label: Int
+
+    @get:DrawableRes
+    val icon: Int
     val categories: List<PreferenceCategory>
 
     data object Appearance : Preferences {
@@ -27,6 +34,12 @@ sealed interface Preferences {
             defaultValue = MapTheme.FOLLOW_APP,
             enumClass = MapTheme::class.java
         )
+
+        @field:StringRes
+        override val label: Int = R.string.label_appearance
+
+        @field:DrawableRes
+        override val icon: Int = R.drawable.palette
         override val categories = listOf(
             PreferenceCategory(
                 label = R.string.label_app,

@@ -1,45 +1,33 @@
 package com.github.inlinefun.lazygo.composables.settings
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.github.inlinefun.lazygo.R
-import com.github.inlinefun.lazygo.common.PreviewWrapper
-import com.github.inlinefun.lazygo.components.DefaultTopbar
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import com.github.inlinefun.lazygo.common.SettingsRoute
+import com.github.inlinefun.lazygo.components.NavHost
 
 @Composable
 fun SettingsScreen(
     toPreviousScreen: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            DefaultTopbar(
-                title = R.string.label_settings,
-                onAction = toPreviousScreen
-            )
-        },
-        modifier = Modifier
-            .fillMaxSize()
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .padding(paddingValues)
-        )
-    }
-}
-
-@Preview(
-    showSystemUi = true
-)
-@Composable
-private fun PreviewSettingsScreen() {
-    PreviewWrapper {
-        SettingsScreen(
-            toPreviousScreen = {}
-        )
-    }
+    val backStack = rememberNavBackStack(SettingsRoute.SettingsList)
+    NavHost(
+        backStack = backStack,
+        entryProvider = entryProvider {
+            entry<SettingsRoute.SettingsList> {
+                SettingsList(
+                    toPreviousScreen = toPreviousScreen,
+                    navigateTo = { route ->
+                        backStack.add(route)
+                    }
+                )
+            }
+            entry<SettingsRoute.SettingsDetails> { data ->
+                SettingsDetails(
+                    toPreviousScreen = backStack::removeLastOrNull,
+                    data = data
+                )
+            }
+        }
+    )
 }
