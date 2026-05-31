@@ -109,7 +109,7 @@ fun LazyGoTheme(
         darkTheme -> defaultDarkColorScheme
         else -> defaultLightColorScheme
     }.let { colorScheme ->
-        if (amoledTheme) {
+        if (amoledTheme && darkTheme) {
             colorScheme
                 .copy(
                     background = Color(0xFF000000)
