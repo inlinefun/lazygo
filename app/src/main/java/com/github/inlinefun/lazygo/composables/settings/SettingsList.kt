@@ -62,7 +62,7 @@ fun SettingsList(
                 ListItem(
                     onClick = {
                         SettingsRoute.SettingsDetails(
-                            preferences = preferences
+                            id = preferences.id
                         ).let { route ->
                             navigateTo(route)
                         }

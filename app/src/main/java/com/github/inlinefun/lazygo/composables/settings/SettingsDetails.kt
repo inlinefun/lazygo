@@ -16,7 +16,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.inlinefun.lazygo.common.Constants
 import com.github.inlinefun.lazygo.common.PreviewWrapper
-import com.github.inlinefun.lazygo.common.SettingsRoute
 import com.github.inlinefun.lazygo.components.DefaultTopbar
 import com.github.inlinefun.lazygo.composables.settings.components.SettingComponentWrapper
 import com.github.inlinefun.lazygo.composables.settings.components.SwitchPreferenceComponent
@@ -27,13 +26,13 @@ import com.github.inlinefun.lazygo.preferences.Preferences
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 fun SettingsDetails(
     toPreviousScreen: () -> Unit,
-    data: SettingsRoute.SettingsDetails
+    preferences: Preferences
 ) {
     val scrollState = rememberScrollState()
     Scaffold(
         topBar = {
             DefaultTopbar(
-                title = data.preferences.label,
+                title = preferences.label,
                 onAction = toPreviousScreen
             )
         },
@@ -48,7 +47,7 @@ fun SettingsDetails(
                 .padding(horizontal = Constants.Spacing.medium)
                 .verticalScroll(scrollState)
         ) {
-            data.preferences.categories.forEach { preferenceCategory ->
+            preferences.categories.forEach { preferenceCategory ->
                 Text(
                     text = stringResource(preferenceCategory.label),
                     style = MaterialTheme.typography.bodyMedium,
@@ -96,9 +95,7 @@ private fun PreviewSettingsDetails() {
     PreviewWrapper {
         SettingsDetails(
             toPreviousScreen = {},
-            data = SettingsRoute.SettingsDetails(
-                preferences = Preferences.Appearance
-            )
+            preferences = Preferences.Appearance
         )
     }
 }

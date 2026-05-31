@@ -5,6 +5,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import com.github.inlinefun.lazygo.common.SettingsRoute
 import com.github.inlinefun.lazygo.components.NavHost
+import com.github.inlinefun.lazygo.preferences.Preferences.Appearance
 
 @Composable
 fun SettingsScreen(
@@ -22,10 +23,14 @@ fun SettingsScreen(
                     }
                 )
             }
-            entry<SettingsRoute.SettingsDetails> { data ->
+            entry<SettingsRoute.SettingsDetails> { details ->
+                val preferences = when (details.id) {
+                    Appearance.id -> Appearance
+                    else -> error("invalid preference route detail")
+                }
                 SettingsDetails(
                     toPreviousScreen = backStack::removeLastOrNull,
-                    data = data
+                    preferences = preferences
                 )
             }
         }

@@ -5,6 +5,8 @@ import androidx.annotation.StringRes
 import com.github.inlinefun.lazygo.R
 
 sealed interface Preferences {
+    val id: String
+
     @get:StringRes
     val label: Int
 
@@ -34,6 +36,7 @@ sealed interface Preferences {
             defaultValue = MapTheme.FOLLOW_APP,
             enumClass = MapTheme::class.java
         )
+        override val id: String = "APPEARANCE"
 
         @field:StringRes
         override val label: Int = R.string.label_appearance
