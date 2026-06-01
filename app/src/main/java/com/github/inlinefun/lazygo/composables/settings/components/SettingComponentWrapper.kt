@@ -46,6 +46,7 @@ fun SettingComponentWrapper(
                 Icon(
                     painter = painterResource(id = icon),
                     contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier
                         .padding(Constants.Spacing.small)
                         .clip(

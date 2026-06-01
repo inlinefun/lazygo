@@ -71,6 +71,7 @@ fun SettingsList(
                         Icon(
                             painter = painterResource(id = preferences.icon),
                             contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier
                                 .padding(Constants.Spacing.small)
                                 .clip(
