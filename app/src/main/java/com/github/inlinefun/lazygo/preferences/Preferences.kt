@@ -20,7 +20,6 @@ sealed interface Preferences {
             label = R.string.preference_label_app_theme,
             icon = R.drawable.palette,
             defaultValue = AppTheme.SYSTEM_DEFAULT,
-            enumClass = AppTheme::class.java,
             enumEntries = AppTheme.entries
         )
         val amoledTheme = PreferenceKey.Switch(
@@ -35,7 +34,6 @@ sealed interface Preferences {
             label = R.string.preference_label_map_theme,
             icon = R.drawable.palette,
             defaultValue = MapTheme.FOLLOW_APP,
-            enumClass = MapTheme::class.java,
             enumEntries = MapTheme.entries
         )
         val mapType = PreferenceKey.Choice(
@@ -43,7 +41,6 @@ sealed interface Preferences {
             label = R.string.preference_label_map_type,
             icon = R.drawable.map,
             defaultValue = MapType.DEFAULT,
-            enumClass = MapType::class.java,
             enumEntries = MapType.entries
         )
         override val id: String = "APPEARANCE"

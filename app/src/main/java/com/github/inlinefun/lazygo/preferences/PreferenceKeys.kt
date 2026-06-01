@@ -100,7 +100,6 @@ sealed class PreferenceKey<A, B>(
         @field:StringRes
         icon: Int? = null,
         defaultValue: T,
-        val enumClass: Class<T>,
         val enumEntries: EnumEntries<T>
     ) : PreferenceKey<T, String>(
         id, label, description, icon, defaultValue,
