@@ -38,6 +38,14 @@ sealed interface Preferences {
             enumClass = MapTheme::class.java,
             enumEntries = MapTheme.entries
         )
+        val mapType = PreferenceKey.Choice(
+            id = "appearance.map.type",
+            label = R.string.preference_label_map_type,
+            icon = R.drawable.map,
+            defaultValue = MapType.DEFAULT,
+            enumClass = MapType::class.java,
+            enumEntries = MapType.entries
+        )
         override val id: String = "APPEARANCE"
 
         @field:StringRes
@@ -52,7 +60,7 @@ sealed interface Preferences {
             ),
             PreferenceCategory(
                 label = R.string.label_map,
-                preferences = listOf(mapTheme)
+                preferences = listOf(mapTheme, mapType)
             )
         )
     }

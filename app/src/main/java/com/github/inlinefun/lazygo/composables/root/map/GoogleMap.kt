@@ -13,12 +13,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import com.github.inlinefun.lazygo.preferences.AppTheme
 import com.github.inlinefun.lazygo.preferences.MapTheme
+import com.github.inlinefun.lazygo.preferences.MapType
 import com.github.inlinefun.lazygo.preferences.Preferences
 import com.github.inlinefun.lazygo.preferences.getPreferenceAsState
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.MapType as GoogleMapType
 
 @Composable
 fun GoogleMap(
@@ -36,6 +38,8 @@ fun GoogleMap(
             .getPreferenceAsState(Preferences.Appearance.appTheme)
         val mapTheme by context
             .getPreferenceAsState(Preferences.Appearance.mapTheme)
+        val mapType by context
+            .getPreferenceAsState(Preferences.Appearance.mapType)
         val isSystemInDarkTheme = isSystemInDarkTheme()
         val mapColorScheme = remember(mapTheme, appTheme, isSystemInDarkTheme) {
             when (mapTheme) {
@@ -57,7 +61,15 @@ fun GoogleMap(
                 MapTheme.LIGHT -> ComposeMapColorScheme.LIGHT
             }
         }
-        val properties = MapProperties()
+        val googleMapType = remember(mapType) {
+            when (mapType) {
+                MapType.DEFAULT -> GoogleMapType.NORMAL
+                MapType.TERRAIN -> GoogleMapType.TERRAIN
+            }
+        }
+        val properties = MapProperties(
+            mapType = googleMapType
+        )
         GoogleMap(
             mapColorScheme = mapColorScheme,
             uiSettings = MapUiSettings(

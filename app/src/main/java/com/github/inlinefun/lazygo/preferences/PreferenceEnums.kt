@@ -44,3 +44,18 @@ enum class MapTheme(
         value = "light"
     );
 }
+
+enum class MapType(
+    @field:StringRes
+    override val label: Int,
+    override val value: String
+) : PreferenceEnum {
+    DEFAULT(
+        label = R.string.value_default,
+        value = "default"
+    ),
+    TERRAIN(
+        label = R.string.value_terrain,
+        value = "terrain"
+    );
+}

@@ -10,11 +10,14 @@
     <string name="preference_label_amoled_theme">Amoled theme</string>
     <string name="preference_description_amoled_theme">Use pitch black backgrounds where applicable</string>
     <string name="preference_label_map_theme">Map theme</string>
+    <string name="preference_label_map_type">Map type</string>
 
     <string name="value_system_default">System default</string>
     <string name="value_dark">Dark</string>
     <string name="value_light">Light</string>
     <string name="value_follow_app">Follow app</string>
+    <string name="value_default">Default</string>
+    <string name="value_terrain">Terrain</string>
 
     <string name="string_todo">Not yet implemented</string>
 </resources>
