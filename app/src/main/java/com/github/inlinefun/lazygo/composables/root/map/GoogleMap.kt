@@ -73,7 +73,8 @@ fun GoogleMap(
         GoogleMap(
             mapColorScheme = mapColorScheme,
             uiSettings = MapUiSettings(
-                zoomControlsEnabled = false
+                zoomControlsEnabled = false,
+                compassEnabled = false
             ),
             properties = properties
         ) {
