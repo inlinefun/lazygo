@@ -1,6 +1,5 @@
 package com.github.inlinefun.lazygo.composables.root.map
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -26,7 +25,6 @@ import com.github.inlinefun.lazygo.common.PreviewWrapper
 import com.github.inlinefun.lazygo.common.ScaffoldWrapper
 import com.github.inlinefun.lazygo.composables.root.map.components.MapOverlayButton
 
-@SuppressLint("InvalidColorHexValue")
 @Composable
 fun MapWrapper(
     modifier: Modifier = Modifier
