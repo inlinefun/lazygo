@@ -5,12 +5,15 @@
     <string name="label_settings">Settings</string>
     <string name="label_app">App</string>
     <string name="label_appearance">Appearance</string>
+    <string name="label_start">Start</string>
 
     <string name="preference_label_app_theme">App theme</string>
     <string name="preference_label_amoled_theme">Amoled theme</string>
     <string name="preference_description_amoled_theme">Use pitch black backgrounds where applicable</string>
     <string name="preference_label_map_theme">Map theme</string>
     <string name="preference_label_map_type">Map type</string>
+    <string name="preference_label_inverted_crosshair">Use inverted crosshair</string>
+    <string name="preference_description_inverted_crosshair">Invert crosshair colors to adapt to the background</string>
 
     <string name="value_system_default">System default</string>
     <string name="value_dark">Dark</string>

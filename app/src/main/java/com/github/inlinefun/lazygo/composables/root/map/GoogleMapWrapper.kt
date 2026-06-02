@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.github.inlinefun.lazygo.composables.root.map.components.MapCrosshair
 import kotlinx.coroutines.delay
 
 @Composable
@@ -39,6 +40,7 @@ fun GoogleMapWrapper() {
                 modifier = Modifier
                     .fillMaxSize()
             )
+            MapCrosshair()
         }
     }
 }

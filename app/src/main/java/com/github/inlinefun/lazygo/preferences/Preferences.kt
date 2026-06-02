@@ -43,6 +43,13 @@ sealed interface Preferences {
             defaultValue = MapType.DEFAULT,
             enumEntries = MapType.entries
         )
+        val invertedCrosshair = PreferenceKey.Switch(
+            id = "appearance.map.invert_crosshair",
+            label = R.string.preference_label_inverted_crosshair,
+            description = R.string.preference_description_inverted_crosshair,
+            icon = R.drawable.point_scan,
+            defaultValue = false
+        )
         override val id: String = "APPEARANCE"
 
         @field:StringRes
@@ -57,7 +64,7 @@ sealed interface Preferences {
             ),
             PreferenceCategory(
                 label = R.string.label_map,
-                preferences = listOf(mapTheme, mapType)
+                preferences = listOf(mapTheme, mapType, invertedCrosshair)
             )
         )
     }
