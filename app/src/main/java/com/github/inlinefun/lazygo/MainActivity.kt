@@ -12,7 +12,9 @@ import com.github.inlinefun.lazygo.composables.NavigationHost
 import com.github.inlinefun.lazygo.preferences.AppTheme
 import com.github.inlinefun.lazygo.preferences.Preferences
 import com.github.inlinefun.lazygo.preferences.getPreferenceAsState
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
