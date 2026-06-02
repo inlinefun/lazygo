@@ -27,7 +27,7 @@ sealed interface Preferences {
             label = R.string.preference_label_amoled_theme,
             description = R.string.preference_description_amoled_theme,
             icon = R.drawable.dark_mode,
-            defaultValue = false
+            defaultValue = true
         )
         val mapTheme = PreferenceKey.Choice(
             id = "appearance.map.theme",
