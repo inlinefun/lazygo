@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
 
     implementation(libs.androidx.datastore.preferences)
+    implementation(libs.google.accompanist.permissions)
     implementation(libs.kotlinx.serialization.core)
 
     implementation(libs.google.dagger.hilt.android)
