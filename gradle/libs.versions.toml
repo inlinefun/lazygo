@@ -1,8 +1,8 @@
 [versions]
 activity-compose = "1.13.0"
 agp = "9.2.1"
-compose-bom = "2026.05.01"
-core-ktx = "1.18.0"
+compose-bom = "2026.05.02"
+core-ktx = "1.19.0"
 datastore-preferences = "1.2.1"
 google-accompanist = "0.37.3"
 hilt-android = "2.59.2"

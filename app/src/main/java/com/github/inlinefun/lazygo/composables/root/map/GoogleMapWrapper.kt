@@ -14,13 +14,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.github.inlinefun.lazygo.composables.root.map.components.MapCrosshair
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun GoogleMapWrapper() {
     val loadTime = 1000L
     var loadMap by rememberSaveable { mutableStateOf(false) }
     LaunchedEffect(Unit) {
-        delay(loadTime)
+        delay(loadTime.milliseconds)
         loadMap = true
     }
     Box(

@@ -3,6 +3,7 @@ package com.github.inlinefun.lazygo.composables.root
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -22,8 +23,10 @@ import androidx.compose.ui.unit.dp
 import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.common.NavRoute
 import kotlinx.coroutines.delay
+import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun MainTopbar(
     navigateTo: (NavRoute) -> Unit
 ) {
@@ -51,7 +54,7 @@ fun MainTopbar(
             }
         )
         LaunchedEffect(Unit) {
-            delay(1000L)
+            delay(1000L.milliseconds)
             progress = 25.000f
         }
         LinearProgressIndicator(

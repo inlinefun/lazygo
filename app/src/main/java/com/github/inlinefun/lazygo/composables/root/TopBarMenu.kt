@@ -18,7 +18,6 @@ import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.common.NavRoute
 
 @Composable
-@Suppress("AssignedValueIsNeverRead") // because it is
 fun TopBarMenu(
     navigateTo: (NavRoute) -> Unit
 ) {

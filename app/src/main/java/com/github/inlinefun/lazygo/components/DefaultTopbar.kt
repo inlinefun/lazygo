@@ -2,6 +2,7 @@ package com.github.inlinefun.lazygo.components
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import com.github.inlinefun.lazygo.R
 
 @Composable
+@OptIn(ExperimentalMaterial3Api::class)
 fun DefaultTopbar(
     @StringRes
     title: Int,
