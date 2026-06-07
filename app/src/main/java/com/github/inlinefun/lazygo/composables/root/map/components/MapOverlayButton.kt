@@ -20,7 +20,8 @@ fun MapOverlayButton(
     @DrawableRes
     icon: Int,
     onClick: () -> Unit,
-    color: Color = MaterialTheme.colorScheme.onSurface
+    modifier: Modifier = Modifier,
+    color: Color = MaterialTheme.colorScheme.onSurface,
 ) {
     OutlinedIconButton(
         onClick = onClick,
@@ -31,7 +32,7 @@ fun MapOverlayButton(
             width = 1.dp,
             color = MaterialTheme.colorScheme.surfaceContainer
         ),
-        modifier = Modifier
+        modifier = modifier
             .size(48.dp)
     ) {
         Icon(

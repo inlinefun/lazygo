@@ -1,5 +1,6 @@
 package com.github.inlinefun.lazygo.composables.root.map
 
+import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,16 +15,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.common.Constants
 import com.github.inlinefun.lazygo.common.PreviewWrapper
 import com.github.inlinefun.lazygo.common.ScaffoldWrapper
 import com.github.inlinefun.lazygo.composables.root.map.components.MapOverlayButton
+import com.github.inlinefun.lazygo.viewmodel.MapViewModel
 
 @Composable
 fun MapWrapper(
@@ -37,13 +44,28 @@ fun MapWrapper(
                     space = Constants.Spacing.medium,
                 )
             ) {
-                FloatingActionButton(
-                    onClick = {}
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.my_location),
-                        contentDescription = null
+                if (!LocalInspectionMode.current) {
+                    val mapViewModel = hiltViewModel<MapViewModel>()
+                    val tilt by mapViewModel
+                        .tilt
+                        .collectAsState()
+                    val rotation by animateIntAsState(
+                        targetValue = if (tilt == 0f) {
+                            0
+                        } else {
+                            45
+                        }
                     )
+                    FloatingActionButton(
+                        onClick = mapViewModel::toggleMapTilt
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.my_location),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .rotate(degrees = rotation.toFloat())
+                        )
+                    }
                 }
                 ExtendedFloatingActionButton(
                     onClick = {}
@@ -76,10 +98,19 @@ fun MapWrapper(
                 .padding(paddingValues)
                 .padding(Constants.Spacing.small)
         ) {
-            MapOverlayButton(
-                icon = R.drawable.navigation,
-                onClick = {}
-            )
+            if (!LocalInspectionMode.current) {
+                val mapViewModel = hiltViewModel<MapViewModel>()
+                val bearing by mapViewModel
+                    .bearing
+                    .collectAsState()
+                MapOverlayButton(
+                    icon = R.drawable.navigation,
+                    onClick = mapViewModel::resetBearing,
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier
+                        .rotate(degrees = -bearing)
+                )
+            }
             MapOverlayButton(
                 icon = R.drawable.add_location_alt,
                 onClick = {}
