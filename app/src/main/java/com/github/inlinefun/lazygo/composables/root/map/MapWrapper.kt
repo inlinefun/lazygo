@@ -130,7 +130,7 @@ fun MapWrapper(
                 visible = checkpoints.isNotEmpty()
             ) {
                 MapOverlayButton(
-                    icon = R.drawable.undo,
+                    icon = R.drawable.wrong_location,
                     onClick = mapViewModel::removeLastPoint
                 )
             }
