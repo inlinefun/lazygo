@@ -1,12 +1,15 @@
 package com.github.inlinefun.lazygo.viewmodel
 
 import android.app.Application
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -20,11 +23,14 @@ class MapViewModel @Inject constructor(
     private val _tilt = MutableStateFlow(value = 0f)
     private val _zoom = MutableStateFlow(value = 0f)
     private val _bearing = MutableStateFlow(value = 0f)
+    private val _checkpoints = mutableStateListOf<LatLng>()
 
     val focusedPosition = _focusedPosition.asStateFlow()
     val tilt = _tilt.asStateFlow()
     val zoom = _zoom.asStateFlow()
     val bearing = _bearing.asStateFlow()
+    val checkpoints: List<LatLng>
+        get() = _checkpoints
 
     fun updateCameraPosition(position: CameraPosition) {
         _focusedPosition.value = position.target
@@ -47,6 +53,25 @@ class MapViewModel @Inject constructor(
 
     fun resetBearing() {
         _bearing.value = 0f
+    }
+
+    fun addPoint(point: LatLng) {
+        if (_checkpoints.lastOrNull() == point)
+            return
+        viewModelScope.launch {
+            _checkpoints.add(point)
+        }
+    }
+
+    fun removePoint(point: LatLng) {
+        _checkpoints
+            .asReversed()
+            .remove(element = point)
+    }
+
+    fun removeLastPoint() {
+        _checkpoints
+            .removeLastOrNull()
     }
 
 }

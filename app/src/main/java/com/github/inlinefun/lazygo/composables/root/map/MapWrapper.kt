@@ -1,5 +1,6 @@
 package com.github.inlinefun.lazygo.composables.root.map
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateIntAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -98,27 +99,41 @@ fun MapWrapper(
                 .padding(paddingValues)
                 .padding(Constants.Spacing.small)
         ) {
-            if (!LocalInspectionMode.current) {
-                val mapViewModel = hiltViewModel<MapViewModel>()
-                val bearing by mapViewModel
-                    .bearing
-                    .collectAsState()
-                MapOverlayButton(
-                    icon = R.drawable.navigation,
-                    onClick = mapViewModel::resetBearing,
-                    color = MaterialTheme.colorScheme.error,
-                    modifier = Modifier
-                        .rotate(degrees = -bearing)
-                )
-            }
+            if (LocalInspectionMode.current)
+                return@Column
+
+            val mapViewModel = hiltViewModel<MapViewModel>()
+            val bearing by mapViewModel
+                .bearing
+                .collectAsState()
+            val checkpoints = mapViewModel
+                .checkpoints
+            val focusedPosition by mapViewModel
+                .focusedPosition
+                .collectAsState()
+            MapOverlayButton(
+                icon = R.drawable.explore,
+                onClick = mapViewModel::resetBearing,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .rotate(degrees = -(bearing + 45))
+            )
             MapOverlayButton(
                 icon = R.drawable.add_location_alt,
-                onClick = {}
+                onClick = {
+                    focusedPosition?.let { point ->
+                        mapViewModel.addPoint(point)
+                    }
+                }
             )
-            MapOverlayButton(
-                icon = R.drawable.undo,
-                onClick = {}
-            )
+            AnimatedVisibility(
+                visible = checkpoints.isNotEmpty()
+            ) {
+                MapOverlayButton(
+                    icon = R.drawable.undo,
+                    onClick = mapViewModel::removeLastPoint
+                )
+            }
         }
     }
 }

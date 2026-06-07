@@ -29,7 +29,9 @@ import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
+import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 import kotlinx.coroutines.flow.filter
 import com.google.maps.android.compose.MapType as GoogleMapType
 
@@ -87,6 +89,7 @@ fun GoogleMap(
         val mapViewModel = hiltViewModel<MapViewModel>()
         val bearing by mapViewModel.bearing.collectAsState()
         val tilt by mapViewModel.tilt.collectAsState()
+        val checkpoints = mapViewModel.checkpoints
 
         val cameraPositionState = rememberCameraPositionState()
         LaunchedEffect(bearing, tilt) {
@@ -131,7 +134,13 @@ fun GoogleMap(
             ),
             properties = properties
         ) {
-
+            checkpoints
+                .forEach { checkpoint ->
+                    val state = rememberUpdatedMarkerState(position = checkpoint)
+                    Marker(
+                        state = state
+                    )
+                }
         }
     }
 }
