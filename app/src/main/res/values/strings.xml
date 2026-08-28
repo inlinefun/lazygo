@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">LazyGO</string>
+    <string name="label_map">Map</string>
+    <string name="label_activity">Activity</string>
 </resources>
