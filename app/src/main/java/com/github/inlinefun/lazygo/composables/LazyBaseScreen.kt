@@ -19,11 +19,15 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import com.github.inlinefun.lazygo.R
 import com.github.inlinefun.lazygo.common.PreviewWrapper
 import com.github.inlinefun.lazygo.components.LazyBottomNavigationBar
+import com.github.inlinefun.lazygo.components.special.SpecialLazyTopBar
 import com.github.inlinefun.lazygo.navigation.LazyBaseRoute
+import com.github.inlinefun.lazygo.navigation.LazyNavRoute
 import com.github.inlinefun.lazygo.navigation.LazyNavigationHost
 
 @Composable
-fun LazyBaseScreen() {
+fun LazyBaseScreen(
+    navigateTo: (LazyNavRoute) -> Unit
+) {
     val baseBackstack = rememberNavBackStack(LazyBaseRoute.Map)
     val currentBaseRoute by remember {
         derivedStateOf {
@@ -31,6 +35,13 @@ fun LazyBaseScreen() {
         }
     }
     Scaffold(
+        topBar = {
+            SpecialLazyTopBar(
+                navigateTo = { route ->
+                    navigateTo(route)
+                }
+            )
+        },
         bottomBar = {
             LazyBottomNavigationBar(
                 currentRoute = currentBaseRoute,
@@ -90,6 +101,8 @@ fun LazyBaseScreen() {
 @Composable
 private fun PreviewLazyBaseScreen() {
     PreviewWrapper {
-        LazyBaseScreen()
+        LazyBaseScreen(
+            navigateTo = {  }
+        )
     }
 }
