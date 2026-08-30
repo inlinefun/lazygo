@@ -2,6 +2,7 @@ package com.github.inlinefun.lazygo.components
 
 import androidx.annotation.StringRes
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
@@ -39,7 +40,12 @@ fun LazyBottomNavigationBar(
             route = LazyBaseRoute.Activity
         )
     )
-    NavigationBar {
+    NavigationBar(
+        // force use of background color
+        // fixes weird theming on "Pure black" theme
+        // pure black is still available through AMOLED theme anyway
+        containerColor = MaterialTheme.colorScheme.background
+    ) {
         items.forEach { item ->
             NavigationBarItem(
                 selected = item.route == currentRoute,
