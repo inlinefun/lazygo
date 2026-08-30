@@ -5,7 +5,9 @@ import kotlinx.serialization.Serializable
 
 sealed interface LazyNavRoute : NavKey {
     @Serializable data object Root : LazyNavRoute
-    @Serializable data object Settings : LazyNavRoute
+    @Serializable data object Settings : LazyNavRoute {
+        data object AppearanceSettings : LazyNavRoute
+    }
 }
 
 sealed interface LazyBaseRoute : NavKey {

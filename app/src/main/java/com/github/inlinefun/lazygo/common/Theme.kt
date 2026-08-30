@@ -15,7 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 @Composable
 fun LazyGOTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    useBlackBackground: Boolean = false,
+    amoledTheme: Boolean = false,
     content: @Composable () -> Unit
 ) = MaterialExpressiveTheme(
     colorScheme = LocalContext.current.let { context ->
@@ -25,7 +25,7 @@ fun LazyGOTheme(
             dynamicLightColorScheme(context)
         }
     }.let { scheme ->
-        if (useBlackBackground && darkTheme) {
+        if (amoledTheme && darkTheme) {
             scheme.copy(
                 background = Color(0xFF000000)
             )

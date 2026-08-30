@@ -59,6 +59,8 @@ dependencies {
     // hilt DI
     implementation(libs.google.dagger.hilt.android)
     ksp(libs.google.dagger.hilt.android.compiler)
+    // dagger
+    implementation(libs.androidx.datastore.preferences)
     // debug impl
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     debugImplementation(libs.androidx.compose.ui.tooling)

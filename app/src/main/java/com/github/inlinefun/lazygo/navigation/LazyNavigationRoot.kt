@@ -8,6 +8,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import com.github.inlinefun.lazygo.composables.LazyBaseScreen
 import com.github.inlinefun.lazygo.composables.LazySettingsScreen
+import com.github.inlinefun.lazygo.composables.settings.LazyAppearanceSettingsScreen
 
 @Composable
 fun LazyNavigationRoot() {
@@ -21,13 +22,17 @@ fun LazyNavigationRoot() {
             entryProvider = entryProvider {
                 entry<LazyNavRoute.Root> {
                     LazyBaseScreen(
-                        navigateTo = { route ->
-                            backStack.add(route)
-                        }
+                        navigateTo = backStack::add
                     )
                 }
                 entry<LazyNavRoute.Settings> {
                     LazySettingsScreen(
+                        navigateTo = backStack::add,
+                        onBack = backStack::removeLastOrNull
+                    )
+                }
+                entry<LazyNavRoute.Settings.AppearanceSettings> {
+                    LazyAppearanceSettingsScreen(
                         onBack = backStack::removeLastOrNull
                     )
                 }
