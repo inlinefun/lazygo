@@ -2,22 +2,20 @@ package com.github.inlinefun.lazygo.composables
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedListItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -104,71 +102,54 @@ private fun PreferenceGroup(
         group
             .items
             .forEachIndexed { index, item ->
-                val shape = when {
-                    group.items.size == 1 -> RoundedCornerShape(size = 24.dp)
-                    index == 0 -> RoundedCornerShape(
-                        topStart = 24.dp,
-                        topEnd = 24.dp,
-                        bottomStart = 6.dp,
-                        bottomEnd = 6.dp
-                    )
-
-                    group.items.size == (index + 1) -> RoundedCornerShape(
-                        topStart = 6.dp,
-                        topEnd = 6.dp,
-                        bottomStart = 24.dp,
-                        bottomEnd = 24.dp
-                    )
-
-                    else -> RoundedCornerShape(size = 6.dp)
-                }
-                PreferenceCategory(shape, item, navigateTo)
+                PreferenceCategory(item, navigateTo, index, count = group.items.size)
             }
     }
 }
 
 @Composable
 private fun PreferenceCategory(
-    shape: RoundedCornerShape,
     item: BasePreferenceCategory,
-    navigateTo: (LazyNavRoute) -> Unit
+    navigateTo: (LazyNavRoute) -> Unit,
+    index: Int = 0,
+    count: Int = 1
 ) {
-    Card(
-        shape = shape,
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
-        ),
-        onClick = {
-            navigateTo(item.route)
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize()
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .padding(all = 8.dp)
-        ) {
+    SegmentedListItem(
+        leadingContent = {
             Icon(
                 painter = painterResource(id = item.icon),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier
-                    .padding(all = 4.dp)
-                    .clip(shape = RoundedCornerShape(percent = 33))
-                    .background(
-                        color = MaterialTheme.colorScheme.primaryContainer.copy(
-                            alpha = 0.3f
+                    .padding(all = 8.dp)
+                    .clip(
+                        shape = RoundedCornerShape(
+                            percent = 25
                         )
                     )
+                    .background(color = MaterialTheme.colorScheme.primaryContainer)
                     .padding(all = 12.dp)
             )
-            Text(
-                text = stringResource(id = item.label)
-            )
-        }
+        },
+        onClick = {
+            navigateTo(item.route)
+        },
+        verticalAlignment = Alignment.CenterVertically,
+        contentPadding = PaddingValues(
+            all = 4.dp
+        ),
+        shapes = ListItemDefaults.segmentedShapes(
+            index = index,
+            count = count
+        ),
+        colors = ListItemDefaults.segmentedColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        )
+    ) {
+        Text(
+            text = stringResource(id = item.label),
+            style = MaterialTheme.typography.titleMedium
+        )
     }
 }
 

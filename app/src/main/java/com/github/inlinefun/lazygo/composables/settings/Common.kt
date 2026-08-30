@@ -4,7 +4,6 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,36 +39,20 @@ fun <T> PreferenceGroup(
         group
             .items
             .forEachIndexed { index, item ->
-                val shape = when {
-                    group.items.size == 1 -> RoundedCornerShape(size = 24.dp)
-                    index == 0 -> RoundedCornerShape(
-                        topStart = 24.dp,
-                        topEnd = 24.dp,
-                        bottomStart = 6.dp,
-                        bottomEnd = 6.dp
-                    )
-
-                    group.items.size == (index + 1) -> RoundedCornerShape(
-                        topStart = 6.dp,
-                        topEnd = 6.dp,
-                        bottomStart = 24.dp,
-                        bottomEnd = 24.dp
-                    )
-
-                    else -> RoundedCornerShape(size = 6.dp)
-                }
                 when(item.preference) {
                     is PreferenceKey.Switch -> SwitchPreferenceItem(
-                        shape = shape,
                         icon = item.icon,
                         title = item.label,
-                        preference = item.preference
+                        preference = item.preference,
+                        count = group.items.size,
+                        index = index
                     )
                     is PreferenceKey.Choice<*> -> ChoicePreferenceItem(
-                        shape = shape,
                         icon = item.icon,
                         title = item.label,
-                        preference = item.preference
+                        preference = item.preference,
+                        count = group.items.size,
+                        index = index
                     )
                     else -> {}
                 }
