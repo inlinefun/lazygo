@@ -40,7 +40,6 @@ import com.github.inlinefun.lazygo.preferences.PreferenceKey
 import com.github.inlinefun.lazygo.preferences.getPreferenceAsState
 import com.github.inlinefun.lazygo.preferences.setPreference
 import kotlinx.coroutines.launch
-import kotlin.math.exp
 
 data class PreferenceItem<T>(
     val label: Int,
@@ -125,7 +124,9 @@ fun SwitchPreferenceItem(
                                 .size(16.dp)
                         )
                     }
-                }
+                },
+                modifier = Modifier
+                    .padding(all = 4.dp)
             )
         }
     }
@@ -185,7 +186,9 @@ fun <T> ChoicePreferenceItem(
                 targetState = value.label
             ) { label ->
                 Text(
-                    text = stringResource(id = label)
+                    text = stringResource(id = label),
+                    modifier = Modifier
+                        .padding(all = 4.dp)
                 )
                 DropdownMenu(
                     expanded = expanded,
