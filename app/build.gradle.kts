@@ -52,6 +52,7 @@ dependencies {
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
     // common
     implementation(libs.kotlinx.serialization.core)
     // lifecycle
@@ -60,5 +61,6 @@ dependencies {
     // navigation3
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
-    debugImplementation(libs.androidx.compose.ui.tooling)
+    // health connect
+    implementation(libs.androidx.health.connect.client)
 }

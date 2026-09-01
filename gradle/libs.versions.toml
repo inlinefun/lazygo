@@ -5,6 +5,7 @@ androidx-lifecycle = "2.11.0"
 androidx-navigation3 = "1.1.7"
 compose-bom = "2026.08.01"
 core-ktx = "1.19.0"
+health-connect = "1.2.0-alpha06"
 kotlin = "2.4.10"
 kotlinx-serialization = "1.11.0"
 
@@ -26,6 +27,8 @@ kotlinx-serialization-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 # navigation 3
 androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "androidx-navigation3" }
 androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "androidx-navigation3" }
+# health connect
+androidx-health-connect-client = { group = "androidx.health.connect", name = "connect-client", version.ref = "health-connect" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
