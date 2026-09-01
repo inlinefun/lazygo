@@ -9,7 +9,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
-import com.github.inlinefun.lazygo.composables.components.LazyNavDisplay
+import com.github.inlinefun.lazygo.composables.components.navigation.LazyNavDisplay
 import com.github.inlinefun.lazygo.composables.components.navigation.LazyBottomNavigationBar
 import com.github.inlinefun.lazygo.composables.components.navigation.LazyContentTopBar
 import com.github.inlinefun.lazygo.composables.screens.content.ActivityContent

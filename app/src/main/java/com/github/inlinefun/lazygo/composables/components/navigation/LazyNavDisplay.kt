@@ -1,4 +1,4 @@
-package com.github.inlinefun.lazygo.composables.components
+package com.github.inlinefun.lazygo.composables.components.navigation
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
