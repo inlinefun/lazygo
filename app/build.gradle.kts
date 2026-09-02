@@ -10,7 +10,6 @@ android {
     compileSdk {
         version = release(37)
     }
-
     defaultConfig {
         applicationId = "com.github.inlinefun.lazygo"
         minSdk = 34
@@ -18,7 +17,6 @@ android {
         versionCode = 1
         versionName = "1.0"
     }
-
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -68,4 +66,6 @@ dependencies {
     // Google Maps
     implementation(libs.google.maps.compose)
     implementation(libs.google.play.services.maps)
+    // Datastore
+    implementation(libs.androidx.datastore.preferences)
 }
