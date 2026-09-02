@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -35,6 +36,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
     dependenciesInfo {
@@ -63,4 +65,7 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
     // health connect
     implementation(libs.androidx.health.connect.client)
+    // Google Maps
+    implementation(libs.google.maps.compose)
+    implementation(libs.google.play.services.maps)
 }
