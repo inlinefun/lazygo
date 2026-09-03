@@ -50,7 +50,7 @@ fun LazyPreferenceCategoryListItem(
             index = index
         ),
         colors = ListItemDefaults.segmentedColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+            containerColor = MaterialTheme.colorScheme.surfaceContainer
         ),
         contentPadding = PaddingValues(
             all = 12.dp
@@ -59,11 +59,11 @@ fun LazyPreferenceCategoryListItem(
             Icon(
                 painter = painterResource(id = item.icon),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimary,
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier
                     .size(48.dp)
                     .clip(shape = RoundedCornerShape(percent = 50))
-                    .background(color = MaterialTheme.colorScheme.primary)
+                    .background(color = MaterialTheme.colorScheme.primaryContainer)
                     .padding(all = 10.dp)
             )
         },
