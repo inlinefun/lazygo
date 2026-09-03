@@ -19,7 +19,7 @@ fun ActivityContent() {
             .fillMaxSize()
     ) {
         Text(
-            text = stringResource(id = R.string.feature_not_implemented)
+            text = stringResource(id = R.string.msg_feature_not_implemented)
         )
     }
 }
