@@ -39,13 +39,19 @@ fun <T> LazyNavDisplay(
             val entryTransition = fadeIn() + slideInHorizontally { -offset }
             val exitTransition = fadeOut() + slideOutHorizontally { offset }
 
-            entryTransition togetherWith exitTransition
+            (entryTransition togetherWith exitTransition)
+                .apply {
+                    targetContentZIndex = -1f
+                }
         },
         predictivePopTransitionSpec = {
             val entryTransition = fadeIn() + slideInHorizontally { -offset }
             val exitTransition = fadeOut() + slideOutHorizontally { offset }
 
-            entryTransition togetherWith exitTransition
+            (entryTransition togetherWith exitTransition)
+                .apply {
+                    targetContentZIndex = -1f
+                }
         }
     )
 }
