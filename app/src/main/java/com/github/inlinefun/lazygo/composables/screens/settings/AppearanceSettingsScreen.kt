@@ -27,7 +27,7 @@ fun AppearanceSettingsScreen(
             items = listOf(
                 PreferenceItem(
                     title = R.string.pref_label_app_theme,
-                    icon = R.drawable.dark_mode,
+                    icon = R.drawable.palette,
                     preference = LazyPreferences.Appearance.appTheme
                 ),
                 PreferenceItem(
