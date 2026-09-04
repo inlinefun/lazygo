@@ -2,6 +2,7 @@ package com.github.inlinefun.lazygo.composables.components.preferences
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.MaterialTheme
@@ -50,10 +51,14 @@ fun <T> LazyChoicePreference(
             expanded = !expanded
         },
         trailingContent = {
-            Text(
-                text = stringResource(id = value.label),
-                style = MaterialTheme.typography.bodyMedium
-            )
+            AnimatedContent(
+                targetState = value.label
+            ) { id ->
+                Text(
+                    text = stringResource(id),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = {

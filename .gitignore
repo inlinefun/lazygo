@@ -2,9 +2,9 @@
 .idea/
 .kotlin/
 
-/build/
-/release/
-/debug/
+build/
+release/
+debug/
 
 .DS_Store
 .cxx
