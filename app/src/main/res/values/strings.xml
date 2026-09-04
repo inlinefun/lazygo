@@ -7,6 +7,18 @@
     <string name="label_back">Back</string>
     <string name="label_appearance">Appearance</string>
     <string name="label_routes">Routes</string>
+    <string name="label_system_default">System Default</string>
+    <string name="label_dark">Dark</string>
+    <string name="label_light">Light</string>
+    <string name="label_default">Default</string>
+    <string name="label_satellite">Satellite</string>
+    <string name="label_interface">Interface</string>
+
+    <string name="pref_label_app_theme">App theme</string>
+    <string name="pref_label_amoled_theme">Amoled theme</string>
+    <string name="pref_detail_amoled_theme">Use pitch black for background surfaces</string>
+    <string name="pref_label_map_theme">Map theme</string>
+    <string name="pref_label_map_type">Map type</string>
 
     <string name="msg_feature_not_implemented">This feature has not yet been implemented</string>
     <string name="msg_appearance_preference_detail">App Theme, Map Theme</string>

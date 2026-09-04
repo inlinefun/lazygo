@@ -14,7 +14,7 @@ sealed interface PreferenceEnum {
     val key: String
 }
 
-sealed class LazyPreference<A, B>(
+sealed class PreferenceType<A, B>(
     val key: String,
     val defaultValue: A,
 ) {
@@ -24,7 +24,7 @@ sealed class LazyPreference<A, B>(
     class Switch(
         key: String,
         defaultValue: Boolean
-    ) : LazyPreference<Boolean, Boolean>(
+    ) : PreferenceType<Boolean, Boolean>(
         key, defaultValue
     ) {
         override fun serialize(value: Boolean): Boolean = value
@@ -35,7 +35,7 @@ sealed class LazyPreference<A, B>(
     class IntSlider(
         key: String,
         defaultValue: Int
-    ) : LazyPreference<Int, Int>(
+    ) : PreferenceType<Int, Int>(
         key, defaultValue
     ) {
         override fun serialize(value: Int): Int = value
@@ -46,7 +46,7 @@ sealed class LazyPreference<A, B>(
     class FloatSlider(
         key: String,
         defaultValue: Float
-    ) : LazyPreference<Float, Float>(
+    ) : PreferenceType<Float, Float>(
         key, defaultValue
     ) {
         override fun serialize(value: Float): Float = value
@@ -58,7 +58,7 @@ sealed class LazyPreference<A, B>(
         key: String,
         defaultValue: T,
         val entries: EnumEntries<T>
-    ) : LazyPreference<T, String>(
+    ) : PreferenceType<T, String>(
         key, defaultValue
     ) where T : Enum<T>, T : PreferenceEnum {
         override fun serialize(value: T): String {
