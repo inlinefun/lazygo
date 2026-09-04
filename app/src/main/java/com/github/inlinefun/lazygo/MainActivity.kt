@@ -24,12 +24,17 @@ class MainActivity : ComponentActivity() {
                 .getPreferenceAsState(
                     preference = LazyPreferences.Appearance.appTheme
                 )
+            val amoledTheme by applicationContext
+                .getPreferenceAsState(
+                    preference = LazyPreferences.Appearance.amoledTheme
+                )
             LazyGOTheme(
                 darkTheme = when (appTheme) {
                     PreferenceAppTheme.SYSTEM_DEFAULT -> isSystemInDarkTheme()
                     PreferenceAppTheme.DARK -> true
                     PreferenceAppTheme.LIGHT -> false
-                }
+                },
+                amoledTheme = amoledTheme
             ) {
                 Surface(
                     modifier = Modifier

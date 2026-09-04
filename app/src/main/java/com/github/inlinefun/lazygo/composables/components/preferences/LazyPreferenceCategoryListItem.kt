@@ -50,7 +50,9 @@ fun LazyPreferenceCategoryListItem(
             index = index
         ),
         colors = ListItemDefaults.segmentedColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(
+                alpha = 0.5f
+            )
         ),
         contentPadding = PaddingValues(
             all = 12.dp
