@@ -70,9 +70,7 @@ fun AppearanceSettingsScreen(
                 .verticalScroll(scrollState)
         ) {
             categories.forEach { category ->
-                LazyPreferenceCategory(
-                    category
-                )
+                LazyPreferenceCategory(category)
             }
         }
     }

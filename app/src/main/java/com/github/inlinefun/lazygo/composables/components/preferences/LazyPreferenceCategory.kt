@@ -39,7 +39,7 @@ fun LazyPreferenceCategory(
                 )
         )
         category.items.forEachIndexed { index, item ->
-            when(item.preference) {
+            when (item.preference) {
                 is PreferenceType.Choice -> {
                     LazyChoicePreference(
                         title = item.title,
@@ -50,6 +50,7 @@ fun LazyPreferenceCategory(
                         index = index
                     )
                 }
+
                 is PreferenceType.Switch -> {
                     LazySwitchPreference(
                         title = item.title,
@@ -60,6 +61,7 @@ fun LazyPreferenceCategory(
                         index = index
                     )
                 }
+
                 else -> {}
             }
         }

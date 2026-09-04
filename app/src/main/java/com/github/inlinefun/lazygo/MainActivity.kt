@@ -25,7 +25,7 @@ class MainActivity : ComponentActivity() {
                     preference = LazyPreferences.Appearance.appTheme
                 )
             LazyGOTheme(
-                darkTheme = when(appTheme) {
+                darkTheme = when (appTheme) {
                     PreferenceAppTheme.SYSTEM_DEFAULT -> isSystemInDarkTheme()
                     PreferenceAppTheme.DARK -> true
                     PreferenceAppTheme.LIGHT -> false
