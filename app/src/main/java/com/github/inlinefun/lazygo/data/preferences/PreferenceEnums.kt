@@ -50,8 +50,8 @@ enum class PreferenceMapType(
         key = "default",
         label = R.string.label_default
     ),
-    SATELLITE(
-        key = "satellite",
-        label = R.string.label_satellite
+    TERRAIN(
+        key = "terrain",
+        label = R.string.label_terrain
     )
 }

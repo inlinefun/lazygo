@@ -11,7 +11,7 @@
     <string name="label_dark">Dark</string>
     <string name="label_light">Light</string>
     <string name="label_default">Default</string>
-    <string name="label_satellite">Satellite</string>
+    <string name="label_terrain">Terrain</string>
     <string name="label_interface">Interface</string>
 
     <string name="pref_label_app_theme">App theme</string>
