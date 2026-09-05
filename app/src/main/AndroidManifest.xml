@@ -12,10 +12,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".LazyGO"
         android:theme="@style/Theme.LazyGo">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".LazyGOActivity"
             android:exported="true"
             android:theme="@style/Theme.LazyGo"
             android:windowSoftInputMode="adjustResize">

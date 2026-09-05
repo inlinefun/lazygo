@@ -14,8 +14,10 @@ import com.github.inlinefun.lazygo.data.preferences.LazyPreferences
 import com.github.inlinefun.lazygo.data.preferences.PreferenceAppTheme
 import com.github.inlinefun.lazygo.data.preferences.getPreferenceAsState
 import com.github.inlinefun.lazygo.util.LazyGOTheme
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class LazyGOActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
