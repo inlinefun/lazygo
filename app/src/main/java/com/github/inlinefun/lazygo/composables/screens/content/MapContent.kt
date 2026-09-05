@@ -9,22 +9,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import com.github.inlinefun.lazygo.composables.components.map.LazyMapContent
+import com.github.inlinefun.lazygo.composables.components.map.LazyMapOverlay
 import com.github.inlinefun.lazygo.util.LazyGOTheme
+import com.github.inlinefun.lazygo.util.ScreenWrapper
 
 @Composable
 fun MapContent() {
     if (LocalInspectionMode.current) {
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier
-                .fillMaxSize()
-        ) {
-            Text(
-                text = "Maps functionality is disabled in preview mode"
-            )
+        ScreenWrapper {
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Text(
+                    text = "Maps functionality is disabled in preview mode"
+                )
+            }
         }
     } else {
         LazyMapContent()
+        LazyMapOverlay()
     }
 }
 

@@ -1,10 +1,13 @@
 package com.github.inlinefun.lazygo.util
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialExpressiveTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
@@ -30,4 +33,20 @@ fun LazyGOTheme(
         }
     },
     content = content
+)
+
+@Composable
+fun SurfaceWrapper(
+    content: @Composable () -> Unit
+) = Surface(
+    content = content
+)
+
+@Composable
+fun ScreenWrapper(
+    content: @Composable () -> Unit
+) = Surface(
+    content = content,
+    modifier = Modifier
+        .fillMaxSize()
 )
