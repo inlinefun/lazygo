@@ -35,9 +35,13 @@ import com.github.inlinefun.lazygo.data.preferences.getPreferenceAsState
 import com.github.inlinefun.lazygo.util.Constants
 import com.github.inlinefun.lazygo.util.LazyGOTheme
 import com.github.inlinefun.lazygo.util.ScreenWrapper
+import com.google.android.gms.maps.model.LatLng
 
 @Composable
-fun LazyMapOverlay() {
+fun LazyMapOverlay(
+    addPoint: () -> Unit,
+    removeLastPoint: () -> Unit
+) {
     Box(
         contentAlignment = Alignment.Center,
         modifier = Modifier
@@ -56,11 +60,11 @@ fun LazyMapOverlay() {
     ) {
         MapOverlayButton(
             icon = R.drawable.add_location_alt,
-            action = { }
+            action = addPoint
         )
         MapOverlayButton(
             icon = R.drawable.undo,
-            action = { }
+            action = removeLastPoint
         )
     }
 }
@@ -158,7 +162,10 @@ private fun MapOverlayButton(
 private fun PreviewLazyMapOverlay() {
     LazyGOTheme {
         ScreenWrapper {
-            LazyMapOverlay()
+            LazyMapOverlay(
+                addPoint = { },
+                removeLastPoint = { }
+            )
         }
     }
 }

@@ -8,10 +8,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.github.inlinefun.lazygo.composables.components.map.LazyGoogleMap
 import com.github.inlinefun.lazygo.composables.components.map.LazyMapOverlay
+import com.github.inlinefun.lazygo.data.map.MapViewModel
 import com.github.inlinefun.lazygo.util.LazyGOTheme
 import com.github.inlinefun.lazygo.util.ScreenWrapper
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun MapContent() {
@@ -37,8 +40,19 @@ fun MapContent() {
  */
 @Composable
 private fun RealMapContent() {
-    LazyGoogleMap()
-    LazyMapOverlay()
+    val mapViewModel = hiltViewModel<MapViewModel>()
+    val checkpoints = mapViewModel.checkpoints
+    val cameraPositionState = rememberCameraPositionState()
+    LazyGoogleMap(
+        cameraPositionState = cameraPositionState,
+        markers = checkpoints
+    )
+    LazyMapOverlay(
+        addPoint = {
+            mapViewModel.addPoint(cameraPositionState.position.target)
+        },
+        removeLastPoint = mapViewModel::removeLastPoint
+    )
 }
 
 @Preview

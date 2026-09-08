@@ -11,15 +11,21 @@ import com.github.inlinefun.lazygo.data.preferences.PreferenceAppTheme
 import com.github.inlinefun.lazygo.data.preferences.PreferenceMapTheme
 import com.github.inlinefun.lazygo.data.preferences.PreferenceMapType
 import com.github.inlinefun.lazygo.data.preferences.getPreferenceAsState
+import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.ComposeMapColorScheme
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapType
 import com.google.maps.android.compose.MapUiSettings
-import com.google.maps.android.compose.rememberCameraPositionState
+import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.rememberUpdatedMarkerState
 
 @Composable
-fun LazyGoogleMap() {
+fun LazyGoogleMap(
+    cameraPositionState: CameraPositionState,
+    markers: List<LatLng>,
+) {
     val context = LocalContext.current
     val appTheme by context.getPreferenceAsState(
         preference = LazyPreferences.Appearance.appTheme
@@ -56,7 +62,6 @@ fun LazyGoogleMap() {
     val uiSettings = MapUiSettings(
         zoomControlsEnabled = false,
     )
-    val cameraPositionState = rememberCameraPositionState()
     GoogleMap(
         mapColorScheme = mapColorScheme,
         properties = properties,
@@ -65,6 +70,11 @@ fun LazyGoogleMap() {
         modifier = Modifier
             .fillMaxSize()
     ) {
-
+        markers.forEach { marker ->
+            val state = rememberUpdatedMarkerState(position = marker)
+            Marker(
+                state = state
+            )
+        }
     }
 }
