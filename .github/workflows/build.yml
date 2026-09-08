@@ -27,7 +27,7 @@ jobs:
 
 
   assemble_release:
-    name: Build Debug variant
+    name: Build Release variant
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v7
