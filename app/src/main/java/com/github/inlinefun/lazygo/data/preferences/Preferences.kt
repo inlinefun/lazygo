@@ -13,13 +13,17 @@ sealed interface LazyPreferences {
         )
         val mapTheme = PreferenceType.Choice(
             key = "appearance.map.theme",
-            defaultValue = PreferenceMapTheme.SYSTEM_DEFAULT,
+            defaultValue = PreferenceMapTheme.FOLLOW_APP,
             entries = PreferenceMapTheme.entries
         )
         val mapType = PreferenceType.Choice(
             key = "apearance.map.type",
             defaultValue = PreferenceMapType.DEFAULT,
             entries = PreferenceMapType.entries
+        )
+        val invertedCrosshair = PreferenceType.Switch(
+            key = "appearance.map.crosshair.invert",
+            defaultValue = false,
         )
     }
 }

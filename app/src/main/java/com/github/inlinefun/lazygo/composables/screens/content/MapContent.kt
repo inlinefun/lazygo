@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
-import com.github.inlinefun.lazygo.composables.components.map.LazyMapContent
+import com.github.inlinefun.lazygo.composables.components.map.LazyGoogleMap
 import com.github.inlinefun.lazygo.composables.components.map.LazyMapOverlay
 import com.github.inlinefun.lazygo.util.LazyGOTheme
 import com.github.inlinefun.lazygo.util.ScreenWrapper
@@ -28,9 +28,17 @@ fun MapContent() {
             }
         }
     } else {
-        LazyMapContent()
-        LazyMapOverlay()
+        RealMapContent()
     }
+}
+
+/**
+ * very real
+ */
+@Composable
+private fun RealMapContent() {
+    LazyGoogleMap()
+    LazyMapOverlay()
 }
 
 @Preview

@@ -27,6 +27,10 @@ enum class PreferenceMapTheme(
     @field:StringRes
     override val label: Int
 ) : PreferenceEnum {
+    FOLLOW_APP(
+        key = "follow_app",
+        label = R.string.label_follow_app
+    ),
     SYSTEM_DEFAULT(
         key = "system_default",
         label = R.string.label_system_default,

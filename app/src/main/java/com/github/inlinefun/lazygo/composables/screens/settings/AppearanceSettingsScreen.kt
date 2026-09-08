@@ -50,6 +50,12 @@ fun AppearanceSettingsScreen(
                     title = R.string.pref_label_map_type,
                     icon = R.drawable.map,
                     preference = LazyPreferences.Appearance.mapType
+                ),
+                PreferenceItem(
+                    title = R.string.pref_label_inverted_crosshair,
+                    detail = R.string.pref_detail_inverted_crosshair,
+                    icon = R.drawable.add,
+                    preference = LazyPreferences.Appearance.invertedCrosshair
                 )
             )
         )
