@@ -2,6 +2,7 @@ package com.github.inlinefun.lazygo.composables.components.navigation
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.togetherWith
@@ -20,7 +21,7 @@ fun <T> LazyNavDisplay(
     backStack: NavBackStack<T>,
     entryProvider: (T) -> NavEntry<T>,
     modifier: Modifier = Modifier,
-    disableSwipeEdgeModifier: Boolean = false
+    disablePredictiveTransition: Boolean = false,
 ) where T : NavKey {
     val offset = 100
     NavDisplay(
@@ -47,19 +48,28 @@ fun <T> LazyNavDisplay(
                 }
         },
         predictivePopTransitionSpec = { swipeEdge ->
-            val modifier = when {
-                disableSwipeEdgeModifier -> 1
-                swipeEdge == NavigationEvent.EDGE_LEFT -> 1
-                swipeEdge == NavigationEvent.EDGE_RIGHT -> -1
-                else -> 1
-            }
-            val entryTransition = fadeIn() + slideInHorizontally { -offset * modifier }
-            val exitTransition = fadeOut() + slideOutHorizontally { offset * modifier }
+            if (disablePredictiveTransition) {
+                val entryTransition = fadeIn() + slideInHorizontally { -offset }
+                val exitTransition = fadeOut() + slideOutHorizontally { offset }
 
-            (entryTransition togetherWith exitTransition)
-                .apply {
-                    targetContentZIndex = -1f
+                (entryTransition togetherWith exitTransition)
+                    .apply {
+                        targetContentZIndex = -1f
+                    }
+            } else {
+                val modifier = when (swipeEdge) {
+                    NavigationEvent.EDGE_LEFT -> 1
+                    NavigationEvent.EDGE_RIGHT -> -1
+                    else -> 1
                 }
+                val entryTransition = fadeIn() + slideInHorizontally { -offset * modifier }
+                val exitTransition = fadeOut() + slideOutHorizontally { offset * modifier } + scaleOut(targetScale = 0.95f)
+
+                (entryTransition togetherWith exitTransition)
+                    .apply {
+                        targetContentZIndex = -1f
+                    }
+            }
         }
     )
 }
