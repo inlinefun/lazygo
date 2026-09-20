@@ -49,6 +49,7 @@ fun ContentScreen(
             backStack = contentBackStack,
             modifier = Modifier
                 .padding(paddingValues),
+            disableSwipeEdgeModifier = true,
             entryProvider = entryProvider {
                 entry<LazyContentChoice.Map> {
                     MapContent()

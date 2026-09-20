@@ -19,7 +19,8 @@ import androidx.navigationevent.NavigationEvent
 fun <T> LazyNavDisplay(
     backStack: NavBackStack<T>,
     entryProvider: (T) -> NavEntry<T>,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    disableSwipeEdgeModifier: Boolean = false
 ) where T : NavKey {
     val offset = 100
     NavDisplay(
@@ -46,9 +47,10 @@ fun <T> LazyNavDisplay(
                 }
         },
         predictivePopTransitionSpec = { swipeEdge ->
-            val modifier = when(swipeEdge) {
-                NavigationEvent.EDGE_LEFT -> 1
-                NavigationEvent.EDGE_RIGHT -> -1
+            val modifier = when {
+                disableSwipeEdgeModifier -> 1
+                swipeEdge == NavigationEvent.EDGE_LEFT -> 1
+                swipeEdge == NavigationEvent.EDGE_RIGHT -> -1
                 else -> 1
             }
             val entryTransition = fadeIn() + slideInHorizontally { -offset * modifier }
