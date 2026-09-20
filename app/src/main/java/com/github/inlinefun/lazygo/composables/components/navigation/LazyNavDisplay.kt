@@ -42,20 +42,14 @@ fun <T> LazyNavDisplay(
             val entryTransition = fadeIn() + slideInHorizontally { -offset }
             val exitTransition = fadeOut() + slideOutHorizontally { offset }
 
-            (entryTransition togetherWith exitTransition)
-                .apply {
-                    targetContentZIndex = -1f
-                }
+            entryTransition togetherWith exitTransition
         },
         predictivePopTransitionSpec = { swipeEdge ->
             if (disablePredictiveTransition) {
                 val entryTransition = fadeIn() + slideInHorizontally { -offset }
                 val exitTransition = fadeOut() + slideOutHorizontally { offset }
 
-                (entryTransition togetherWith exitTransition)
-                    .apply {
-                        targetContentZIndex = -1f
-                    }
+                entryTransition togetherWith exitTransition
             } else {
                 val modifier = when (swipeEdge) {
                     NavigationEvent.EDGE_LEFT -> 1
@@ -65,10 +59,7 @@ fun <T> LazyNavDisplay(
                 val entryTransition = fadeIn() + slideInHorizontally { -offset * modifier }
                 val exitTransition = fadeOut() + slideOutHorizontally { offset * modifier } + scaleOut(targetScale = 0.95f)
 
-                (entryTransition togetherWith exitTransition)
-                    .apply {
-                        targetContentZIndex = -1f
-                    }
+                entryTransition togetherWith exitTransition
             }
         }
     )
