@@ -13,6 +13,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import androidx.navigationevent.NavigationEvent
 
 @Composable
 fun <T> LazyNavDisplay(
@@ -44,9 +45,14 @@ fun <T> LazyNavDisplay(
                     targetContentZIndex = -1f
                 }
         },
-        predictivePopTransitionSpec = {
-            val entryTransition = fadeIn() + slideInHorizontally { -offset }
-            val exitTransition = fadeOut() + slideOutHorizontally { offset }
+        predictivePopTransitionSpec = { swipeEdge ->
+            val modifier = when(swipeEdge) {
+                NavigationEvent.EDGE_LEFT -> 1
+                NavigationEvent.EDGE_RIGHT -> -1
+                else -> 1
+            }
+            val entryTransition = fadeIn() + slideInHorizontally { -offset * modifier }
+            val exitTransition = fadeOut() + slideOutHorizontally { offset * modifier }
 
             (entryTransition togetherWith exitTransition)
                 .apply {
